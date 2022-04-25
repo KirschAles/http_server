@@ -4,6 +4,8 @@
 #include <iostream>
 #include <fstream>
 #include <cstring>
+
+constexpr size_t BUFFER = 1000;
 // Class represents an established connection
 class Connection {
 private:
@@ -38,6 +40,41 @@ public:
             bytesToSend -= bytesSent;
         }
 
+    }
+    // INPUT: None
+    // RETURNS: message recieved
+    // EFFECT: recieves messege from the connection
+    // ERRORS: throws runtime_error if the recieving of message fails
+    std::string recieve() {
+        return recieve(0);
+    }
+    // INPUT: maximum size of the message, 0 if not limit on the size
+    // RETURNS: message recieved
+    // EFFECT: recieves messege from the connection
+    // ERRORS: throws runtime_error if the recieving of message fails
+    std::string recieve(size_t maximumSize) {
+        std::string message = std::string();
+        size_t currentLen = 0;
+        char *buffer = new char[BUFFER+1];
+        size_t bytesRecieved = 0;
+        while (!maximumSize || maximumSize < currentLen) {
+            int length = BUFFER>maximumSize-currentLen ? maximumSize-currentLen : BUFFER;
+            // stop reading when there is nothing new to read
+            if (!(bytesRecieved = recv(sockfd, (void *)buffer, length, 0))){
+                break;
+            }
+            // if error happens...
+            else if(bytesRecieved == -1) {
+                delete[] buffer;
+                throw std::runtime_error("Message couldn't be recieved.");
+            }
+            currentLen += bytesRecieved;
+            // make sure that the string is zero ended
+            buffer[bytesRecieved] = '\0';
+            message += std::string(buffer);
+        }
+        delete[] buffer;
+        return std::move(message);
     }
 };
 class Configuration {
