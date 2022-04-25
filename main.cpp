@@ -23,6 +23,22 @@ public:
         memcpy(&connectedAddr, &connection.connectedAddr, sizeof connectedAddr);
         return *this;
     }
+
+    // PARAMETERS: STRING message to be send
+    // RETURNS: true if the whole message was sent, false otherwise
+    // EFFECTS: sends the message to the other side of a connection
+    bool send(const std::string &message) noexcept {
+        size_t bytesSent = 0;
+        size_t current_index = 0;
+        size_t bytesToSend = message.length();
+        const char *msg = message.c_str();
+
+        while ((bytesSent = ::send(sockfd, &msg[current_index], bytesToSend, 0))) {
+            current_index += bytesSent;
+            bytesToSend -= bytesSent;
+        }
+
+    }
 };
 class Configuration {
 private:
