@@ -41,7 +41,7 @@ public:
             current_index += bytesSent;
             bytesToSend -= bytesSent;
         }
-
+        return true;
     }
     // INPUT: None
     // RETURNS: message recieved
