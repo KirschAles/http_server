@@ -55,26 +55,24 @@ public:
     // EFFECT: recieves messege from the connection
     // ERRORS: throws runtime_error if the recieving of message fails
     std::string recieve(size_t maximumSize) {
-        std::string message = std::string();
-        size_t currentLen = 0;
-        char *buffer = new char[BUFFER+1];
-        size_t bytesRecieved = 0;
-        while (!maximumSize || maximumSize < currentLen) {
-            int length = BUFFER>maximumSize-currentLen ? maximumSize-currentLen : BUFFER;
-            // stop reading when there is nothing new to read
-            if (!(bytesRecieved = recv(sockfd, (void *)buffer, length, 0))){
-                break;
-            }
-            // if error happens...
-            else if(bytesRecieved == -1) {
+        char *buffer = new char[BUFFER];
+        size_t bytesWanted = maximumSize?maximumSize:BUFFER-1;
+        int bytesRecieved = 0;
+        std::string message{};
+        do {
+            int wantedLength = (bytesWanted>BUFFER-1) ? BUFFER-1 : bytesWanted;
+
+            bytesRecieved = recv(sockfd, (void *)buffer, wantedLength, 0);
+            if (bytesRecieved == -1) {
                 delete[] buffer;
-                throw std::runtime_error("Message couldn't be recieved.");
+                throw std::runtime_error("Message couldn't be accepted");
             }
-            currentLen += bytesRecieved;
-            // make sure that the string is zero ended
             buffer[bytesRecieved] = '\0';
-            message += std::string(buffer);
-        }
+            message += buffer;
+            // dont decrement bytesWanted, if the max size is set to unlimited (0)
+            bytesWanted -= maximumSize?bytesRecieved:0;
+        } while(bytesWanted != 0 && bytesRecieved == BUFFER-1);
+        // run the loop until all wanted bytes are sent or the client stops sending
         delete[] buffer;
         return move(message);
     }
