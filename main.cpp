@@ -4,6 +4,8 @@
 #include <iostream>
 #include <fstream>
 #include <cstring>
+#include <unistd.h>
+#include "configuration.h"
 
 constexpr size_t BUFFER = 1000;
 // Class represents an established connection
@@ -74,24 +76,13 @@ public:
             message += std::string(buffer);
         }
         delete[] buffer;
-        return std::move(message);
+        return move(message);
+    }
+    ~Connection(){
+        close(sockfd);
     }
 };
-class Configuration {
-private:
-    std::string port = "8080";
-public:
-    Configuration(){}
-    bool load(std::istream file) {
-        return true;
-    }
 
-    // returns pointer to the start of the port string
-    // needed for the functions from the socket library
-    const char *getPort() {
-        return port.c_str();
-    }
-};
 class Server {
     int sockfd;
     Configuration config;

@@ -6,8 +6,10 @@ clean:
 	rm *.exe
 
 all: main.exe
-main.exe: main.o
-	$(CC) $(CFLAGS) -o main.exe main.o
+main.exe: main.o configuration.o
+	$(CC) $(CFLAGS) -o main.exe main.o configuration.o
+configuration.o: configuration.cpp
+		$(CC) $(CFLAGS) -c configuration.cpp -o configuration.o
 main.o: main.cpp
 	$(CC) $(CFLAGS) -c main.cpp -o main.o
 
