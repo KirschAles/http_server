@@ -84,7 +84,6 @@ namespace http {
                 throw std::runtime_error("Ran out of bytes: getByte()");
             }
             char byte = buffer.front();
-            std::cout << byte;
             buffer.pop_front();
             return byte;
         }
