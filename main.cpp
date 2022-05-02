@@ -213,7 +213,29 @@ namespace http {
     public:
         GETRequest(Connection &connection)
         : Request(connection) {
+        }
+    };
+    class Communication {
+    private:
+        Connection &connection;
+        Request request;
 
+    public:
+        Communication(Connection &connection)
+                : connection(connection) {}
+        bool recieveRequest() {
+            std::string requestName = connection.getBytes(3);
+            if (requestName == "GET" && connection.getByte() == ' ') {
+                request = std::move(GETRequest(connection));
+            }
+            else {
+                return false;
+            }
+            return true;
+        }
+
+        void printRequest() {
+            request.print();
         }
     };
 
