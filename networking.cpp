@@ -81,7 +81,7 @@ Server::Server(Configuration config)
     struct addrinfo hints, *result;
     memset(&hints, 0, sizeof hints);
     setAddrInfo(hints);    // fill in my IP for me
-    if (getaddrinfo(NULL, config.getPort(), &hints, &result)) {
+    if (getaddrinfo(config.getIP(), config.getPort(), &hints, &result)) {
         throw std::exception();
     }
     sockfd = socket(result->ai_family, result->ai_socktype, result->ai_protocol);
