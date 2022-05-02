@@ -122,9 +122,9 @@ namespace http {
         }
         void setHttpVersion(const std::string &line) {
             // there should be nothing else but the http version here
+            // if there is nothing than it means that the request is a simple request
+            // and thus http/0.9
             httpVersion = line.length()>0 ? line : HTTP09;
-            // if simple request is used and thus there is no http version
-            // the line should be empty string
         }
         void setRequestLine(Connection &connection) {
             std::string line = connection.getLine();
