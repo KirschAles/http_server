@@ -14,6 +14,8 @@
 
 
 namespace http {
+    constexpr char * HTTP09 = "HTTP/0.9";
+    constexpr char * HTTP10 = "HTTP/1.0";
 
     // class for http Connection
     class Connection {
@@ -121,7 +123,7 @@ namespace http {
         }
         void setHttpVersion(const std::string &line) {
             // there should be nothing else but the http version here
-            httpVersion = line;
+            httpVersion = line.length()>0 ? line : HTTP09;
             // if simple request is used and thus there is no http version
             // the line should be empty string
         }
