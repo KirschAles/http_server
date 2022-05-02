@@ -67,8 +67,9 @@ std::string Connection::recieve(size_t maximumSize) {
         return move(message);
 }
 Connection::~Connection(){
-    close(sockfd);
+    close();
 }
+
 void Server::setAddrInfo(struct addrinfo& info) {
     info.ai_family = AF_UNSPEC;
     info.ai_socktype = SOCK_STREAM;

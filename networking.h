@@ -38,6 +38,7 @@ public:
     // EFFECT: recieves messege from the connection
     // ERRORS: throws runtime_error if the recieving of message fails
     std::string recieve(size_t maximumSize);
+    void close() {::close(sockfd);}
     ~Connection();
 };
 
