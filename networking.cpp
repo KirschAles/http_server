@@ -17,7 +17,7 @@ Connection &Connection::operator=(const Connection &connection) {
     // RETURNS: true if the whole message was sent, false otherwise
     // EFFECTS: sends the message to the other side of a connection
 
-bool Connection::send(const std::string &message) noexcept {
+bool Connection::send(const std::string &message) const noexcept{
     size_t bytesSent = 0;
     size_t current_index = 0;
     size_t bytesToSend = message.length();
@@ -33,14 +33,14 @@ bool Connection::send(const std::string &message) noexcept {
     // RETURNS: message recieved
     // EFFECT: recieves messege from the connection
     // ERRORS: throws runtime_error if the recieving of message fails
-std::string Connection::recieve() {
+std::string Connection::recieve() const {
     return recieve(0);
 }
     // INPUT: maximum size of the message, 0 if not limit on the size
     // RETURNS: message recieved
     // EFFECT: recieves messege from the connection
     // ERRORS: throws runtime_error if the recieving of message fails
-std::string Connection::recieve(size_t maximumSize) {
+std::string Connection::recieve(size_t maximumSize) const {
         char *buffer = new char[BUFFER];
         size_t bytesWanted = maximumSize?maximumSize:BUFFER-1;
         int bytesRecieved = 0;
