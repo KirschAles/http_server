@@ -180,9 +180,24 @@ namespace http {
             setRequestLine(connection);
             setHeaders(connection);
         }
-        
-
-
+        Request(const Request &request)
+        : fileName(request.fileName), httpVersion(request.httpVersion), headers(request.headers) {}
+        Request(Request &&request)
+        : fileName(std::move(request.fileName)), httpVersion(request.httpVersion), headers(request.headers) {}
+        Request &operator=(const Request &request)
+        {
+            fileName = request.fileName;
+            httpVersion = request.httpVersion;
+            headers = request.headers;
+            return *this;
+        }
+        Request &operator=(Request &&request)
+        {
+            fileName = std::move(request.fileName);
+            httpVersion = std::move(request.httpVersion);
+            headers = std::move(request.headers);
+            return *this;
+        }
 
         void print() {
             std::cout << fileName << std::endl << httpVersion << std::endl;
