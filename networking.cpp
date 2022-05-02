@@ -53,8 +53,12 @@ std::string Connection::recieve(size_t maximumSize) {
                 delete[] buffer;
                 throw std::runtime_error("Message couldn't be accepted");
             }
-            buffer[bytesRecieved] = '\0';
-            message += buffer;
+            // loop is used instead of normal addition,
+            // so an user can send \0 in data
+            // which if he sends binary data is a possibility
+            for (int i = 0; i < bytesRecieved; i++) {
+                message += buffer[i];
+            }
             // dont decrement bytesWanted, if the max size is set to unlimited (0)
             bytesWanted -= maximumSize?bytesRecieved:0;
         } while(bytesWanted != 0 && bytesRecieved == BUFFER-1);
