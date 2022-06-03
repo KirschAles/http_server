@@ -32,8 +32,9 @@ private:
     void buildHeaders();
 public:
     contentGenerator(const std::string fileName, const Configuration &configuration);
-    std::string getBodyPart() ;
     const std::map<std::string, std::string> &getHeaders() const;
+    bool isEmpty() { return fileParser->isEmpty();}
+    std::string getChunk() { return std::move(fileParser->getChunk());}
     ~contentGenerator();
 };
 

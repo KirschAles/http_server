@@ -71,8 +71,6 @@ namespace fs = std::experimental::filesystem;
             // contentLength couldn't be found, no content-length header was created
         }
     }
-    std::string contentGenerator::getBodyPart() {
-        return std::move(fileParser->getChunk());
     const std::map<std::string, std::string> &contentGenerator::getHeaders() const{
         return headers;
     }
