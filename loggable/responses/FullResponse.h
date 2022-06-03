@@ -12,11 +12,12 @@ protected:
 
     const Configuration &configuration;
 
-    void sendStatusLine();
+    bool sendStatusLine();
+    bool sendHeaders(contentGenerator &contentGenerator);
 public:
     FullResponse(HttpConnection &connection, const Configuration &configuration)
             : SimpleResponse(connection), configuration(configuration) {}
-    void send();
+    bool send(contentGenerator &contentGenerator) override;
 };
 
 
