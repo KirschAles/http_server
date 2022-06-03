@@ -1,6 +1,6 @@
 #include "FullResponse.h"
 bool FullResponse::sendStatusLine() {
-    std::string line = httpVersion + " " + codes::OK + " " + "ok" + "\r\n";
+    std::string line = httpVersion + " " + codes::OK + " " + "ok" + http::CRLF;
     return connection.send(line);
 }
 bool FullResponse::sendHeaders(contentGenerator &contentGenerator) {
