@@ -11,9 +11,15 @@ private:
     fs::path rootDirectory = fs::canonical(fs::path("."));
     int chunkSize = 1000;
     fs::path logFile = fs::canonical(fs::path("./log.log"));
+    std::vector<std::string> scriptExtensions = {"sh", "py", "exe", "out"};
+    std::vector<std::string> textExtensions = {"txt", "cpp", "h", "html", "xml", "css", "json"};
+
+
+    template<class T>
+    static bool isIn(const T& item, const std::vector<T> &items);
 public:
     Configuration(){}
-    bool load(const std::string file);
+    bool load(const std::string &file);
 
     // returns pointer to the start of the port string
     // needed for the functions from the socket library
@@ -22,6 +28,9 @@ public:
     const fs::path &getRootDirectory() const {return rootDirectory;}
     int getChunkSize() const {return chunkSize;}
     const fs::path &getLog() const {return logFile;}
+    bool isScript(const std::string &extension) const {return isIn(extension, scriptExtensions);};
+    bool isText(const std::string &extension) const {return isIn(extension, textExtensions);};
+
 };
 
 #endif //HTTP_SERVER_CONFIGURATION_H
