@@ -29,11 +29,11 @@ private:
     FileParser *createFileParserOfRegular(const fs::path &file);
     FileParser *createFileParser(const fs::path &file);
 
-
+    void buildHeaders();
 public:
     contentGenerator(const std::string fileName, const Configuration &configuration);
-    std::map<std::string, std::string> getHeaders();
     std::string getBodyPart() ;
+    const std::map<std::string, std::string> &getHeaders() const;
     ~contentGenerator();
 };
 

@@ -61,10 +61,6 @@ namespace fs = std::experimental::filesystem;
         fileParser = createFileParser(file);
         buildHeaders();
     }
-    std::map<std::string, std::string> contentGenerator::getHeaders() {
-        std::map<std::string, std::string> headers;
-        headers["Content-Length"] = std::to_string(fileParser->calculateSize());
-        return std::move(headers);
     void contentGenerator::buildHeaders() {
         try {
             size_t contentLength = 0;
@@ -77,7 +73,10 @@ namespace fs = std::experimental::filesystem;
     }
     std::string contentGenerator::getBodyPart() {
         return std::move(fileParser->getChunk());
+    const std::map<std::string, std::string> &contentGenerator::getHeaders() const{
+        return headers;
     }
+
     contentGenerator::~contentGenerator() {
         if (fileParser) {
             delete fileParser;
