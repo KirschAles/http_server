@@ -64,7 +64,7 @@ std::string Connection::recieve(size_t maximumSize) const {
         } while(bytesWanted != 0 && bytesRecieved == BUFFER-1);
         // run the loop until all wanted bytes are sent or the client stops sending
         delete[] buffer;
-        return move(message);
+        return std::move(message);
 }
 Connection::~Connection(){
     close();
@@ -76,12 +76,12 @@ void Server::setAddrInfo(struct addrinfo& info) {
     info.ai_flags = AI_PASSIVE;
 }
 
-Server::Server(Configuration config)
-:config(config) {
+Server::Server(Configuration configuration)
+:configuration(configuration) {
     struct addrinfo hints, *result;
     memset(&hints, 0, sizeof hints);
     setAddrInfo(hints);    // fill in my IP for me
-    if (getaddrinfo(config.getIP(), config.getPort(), &hints, &result)) {
+    if (getaddrinfo(configuration.getIP(), configuration.getPort(), &hints, &result)) {
         throw std::exception();
     }
     sockfd = socket(result->ai_family, result->ai_socktype, result->ai_protocol);

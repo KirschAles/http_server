@@ -44,14 +44,14 @@ public:
 
 class Server {
     int sockfd;
-    Configuration config;
+    Configuration configuration;
     addrinfo *addressInfo;
     int maxBacklog = 10;
 
 
     static void setAddrInfo(struct addrinfo& info);
 public:
-    Server(Configuration config=Configuration());
+    Server(Configuration configuration=Configuration());
     // binds socket to a port (and address)
     // RETURN VALUE: true on success, false on failure
     bool bind();

@@ -1,6 +1,6 @@
 #include "configuration.h"
 
 // loads file
-bool Configuration::load(const std::istream &configFile) {
+bool Configuration::load(const std::string configFile) {
     return true;
 }
