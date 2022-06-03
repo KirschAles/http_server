@@ -20,6 +20,7 @@ class contentGenerator {
 private:
     const Configuration &configuration;
     FileParser *fileParser = nullptr;
+    std::map<std::string, std::string> headers;
 
     // directory must be directory, should be checked by the configuration
     static bool isSubdirectory(const fs::path &file, const fs::path &directory);

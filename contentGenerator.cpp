@@ -59,11 +59,21 @@ namespace fs = std::experimental::filesystem;
             throw std::runtime_error("Requested file is not a subdirectory of the root.");
         }
         fileParser = createFileParser(file);
+        buildHeaders();
     }
     std::map<std::string, std::string> contentGenerator::getHeaders() {
         std::map<std::string, std::string> headers;
         headers["Content-Length"] = std::to_string(fileParser->calculateSize());
         return std::move(headers);
+    void contentGenerator::buildHeaders() {
+        try {
+            size_t contentLength = 0;
+            contentLength = fileParser->calculateSize();
+            headers["Content-Length"] = std::to_string(contentLength);
+        }
+        catch (std::runtime_error e) {
+            // contentLength couldn't be found, no content-length header was created
+        }
     }
     std::string contentGenerator::getBodyPart() {
         return std::move(fileParser->getChunk());
