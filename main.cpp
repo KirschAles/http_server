@@ -1,7 +1,8 @@
 #include <iostream>
 #include "configuration.h"
-#include "networking.h"
-#include "http.h"
+#include "communicationManagement/Server.h"
+#include "communicationManagement/Communication.h"
+
 const char * DEFAULT_CONFIG = "./config.txt";
 /* TODO:
  *      implement turning off of the server
@@ -32,8 +33,8 @@ int main(int argc, char *argv[]) {
     while (true) {
         Connection connection = server.accept();
         std::cout << "Accepted" << std::endl;
-        http::Connection conn(connection);
-        http::Communication comm(conn, configuration);
+        HttpConnection conn(connection);
+        Communication comm(conn, configuration);
         comm.recieveRequest();
         comm.respond();
     }

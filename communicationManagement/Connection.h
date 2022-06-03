@@ -1,9 +1,7 @@
-//
-// Created by alesp on 26.04.2022.
-//
+#ifndef HTTP_SERVER_CONNECTION_H
+#define HTTP_SERVER_CONNECTION_H
 
-#ifndef HTTP_SERVER_NETWORKING_H
-#define HTTP_SERVER_NETWORKING_H
+
 #include <sys/types.h>
 #include <sys/socket.h>
 #include <netdb.h>
@@ -11,7 +9,7 @@
 #include <fstream>
 #include <cstring>
 #include <unistd.h>
-#include "configuration.h"
+#include "../configuration.h"
 
 constexpr size_t BUFFER = 1000;
 // Class represents an established connection
@@ -42,28 +40,5 @@ public:
     ~Connection();
 };
 
-class Server {
-    int sockfd;
-    Configuration configuration;
-    addrinfo *addressInfo;
-    int maxBacklog = 10;
 
-
-    static void setAddrInfo(struct addrinfo& info);
-public:
-    Server(Configuration configuration=Configuration());
-    // binds socket to a port (and address)
-    // RETURN VALUE: true on success, false on failure
-    bool bind();
-
-    // listens for incoming connections
-    // RETURN VALUE: true on succes, false on failure
-    bool listen();
-
-    // Accepts incoming connection
-    // RETURN VALUE: new connection
-    // ERRORS: std::runtime_error if the connection couldn't be accepted
-    Connection accept();
-    ~Server();
-};
-#endif //HTTP_SERVER_NETWORKING_H
+#endif //HTTP_SERVER_CONNECTION_H

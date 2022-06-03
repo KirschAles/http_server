@@ -6,7 +6,7 @@
 #include <map>
 #include <experimental/filesystem>
 #include "configuration.h"
-#include "codes.h"
+#include "constants/codes.h"
 #include "fileParsers/FileParser.h"
 #include "fileParsers/FileParserRegular.h"
 #include "fileParsers/FileParserScript.h"
