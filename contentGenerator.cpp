@@ -58,6 +58,7 @@ namespace fs = std::experimental::filesystem;
         if (!isSubdirectory(file, configuration.getRootDirectory())) {
             throw std::runtime_error("Requested file is not a subdirectory of the root.");
         }
+        // this line will throw error if the file cannot be opened or doesn't exist
         fileParser = createFileParser(file);
         buildHeaders();
     }
