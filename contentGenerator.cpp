@@ -79,6 +79,7 @@ namespace fs = std::experimental::filesystem;
     contentGenerator::~contentGenerator() {
         if (fileParser) {
             delete fileParser;
+            fileParser = nullptr;
         }
     }
 
