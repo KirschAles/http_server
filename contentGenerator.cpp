@@ -25,18 +25,18 @@ namespace fs = std::experimental::filesystem;
         }
         return true;
     }
-    // TO DO: replace this with endings that should be loaded from configuration file
-    //        this is just a temporary solution
+
     FileParser *contentGenerator::createFileParserOfRegular(const fs::path &file) {
         std::string extension = file.extension().string();
-        if (extension == ".sh" || extension == ".py" || extension == ".exe" || extension == ".out") {
-            return new FileParserScript(file, configuration);
+        if (configuration.isScript(extension)) {
+            return new FileParserScript(file, configuration.getChunkSize());
         }
-        else if (extension == ".txt", extension == ".html", extension == ".cpp", extension == ".h") {
-            return new FileParserText(file, configuration);
+        else if (configuration.isText(extension)) {
+            return new FileParserText(file, configuration.getChunkSize());
         }
         else {
-            return new FileParserBinary(file, configuration);
+            // binary is the default mode for unknown types of files
+            return new FileParserBinary(file, configuration.getChunkSize());
         }
     }
     FileParser *contentGenerator::createFileParser(const fs::path &file) {
