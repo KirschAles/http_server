@@ -13,7 +13,7 @@ bool Communication::recieveRequest() {
 Response *Communication::createResponse() {
     Response *response = nullptr;
     try {
-        contentGenerator generator(request.getFileName(), configuration);
+        ContentGenerator generator(request.getFileName(), configuration);
         if (request.getVersion() == http::HTTP09) {
             response = new SimpleResponse(connection, generator);
         }
