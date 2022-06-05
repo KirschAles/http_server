@@ -5,7 +5,7 @@
 #include <map>
 #include <iostream>
 #include "../../constants/http.h"
-class Request: Loggable {
+class Request: public Loggable {
 protected:
     std::string httpVersion;
     std::map<std::string, std::string> headers;

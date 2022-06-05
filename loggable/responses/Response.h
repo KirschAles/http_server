@@ -2,7 +2,7 @@
 #define HTTP_SERVER_RESPONSE_H
 #include "../Loggable.h"
 #include "../../contentGenerator.h"
-class Response: Loggable {
+class Response: public Loggable {
 public:
     virtual bool send() = 0;
 
