@@ -1,4 +1,4 @@
-#include "contentGenerator.h"
+#include "ContentGenerator.h"
 #ifndef HTTP_SERVER_CONTENTGENERATOR_H
 #define HTTP_SERVER_CONTENTGENERATOR_H
 #include <fstream>
@@ -11,7 +11,7 @@
 namespace fs = std::experimental::filesystem;
 
     // directory must be directory, should be checked by the configuration
-    static bool contentGenerator::isSubdirectory(const fs::path &file, const fs::path &directory) {
+    static bool ContentGenerator::isSubdirectory(const fs::path &file, const fs::path &directory) {
         if (fs::status(directory).type() != fs::file_type::directory) {
             // this should be checked by config but better to be safe
             throw std::runtime_error("Root is not Directory");
@@ -26,7 +26,7 @@ namespace fs = std::experimental::filesystem;
         return true;
     }
 
-    FileParser *contentGenerator::createFileParserOfRegular(const fs::path &file) {
+    FileParser *ContentGenerator::createFileParserOfRegular(const fs::path &file) {
         std::string extension = file.extension().string();
         if (configuration.isScript(extension)) {
             return new FileParserScript(file, configuration.getChunkSize());
@@ -39,7 +39,7 @@ namespace fs = std::experimental::filesystem;
             return new FileParserBinary(file, configuration.getChunkSize());
         }
     }
-    FileParser *contentGenerator::createFileParser(const fs::path &file) {
+    FileParser *ContentGenerator::createFileParser(const fs::path &file) {
 
         switch (fs::status(file).type()) {
             case fs::file_type::directory:
@@ -52,7 +52,7 @@ namespace fs = std::experimental::filesystem;
     }
 
 
-    contentGenerator::contentGenerator(const std::string fileName, const Configuration &configuration)
+    ContentGenerator::ContentGenerator(const std::string fileName, const Configuration &configuration)
     : configuration(configuration) {
         fs::path file = fs::canonical(fs::path(fileName));
         if (!isSubdirectory(file, configuration.getRootDirectory())) {
@@ -62,7 +62,7 @@ namespace fs = std::experimental::filesystem;
         fileParser = createFileParser(file);
         buildHeaders();
     }
-    void contentGenerator::buildHeaders() {
+    void ContentGenerator::buildHeaders() {
         try {
             size_t contentLength = 0;
             contentLength = fileParser->calculateSize();
@@ -72,11 +72,11 @@ namespace fs = std::experimental::filesystem;
             // contentLength couldn't be found, no content-length header was created
         }
     }
-    const std::map<std::string, std::string> &contentGenerator::getHeaders() const{
+    const std::map<std::string, std::string> &ContentGenerator::getHeaders() const{
         return headers;
     }
 
-    contentGenerator::~contentGenerator() {
+    ContentGenerator::~ContentGenerator() {
         if (fileParser) {
             delete fileParser;
             fileParser = nullptr;

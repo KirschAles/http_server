@@ -4,7 +4,7 @@
 #include "../loggable/requests/Request.h"
 #include "../loggable/requests/GETRequest.h"
 #include "../constants/codes.h"
-#include "../contentGenerator.h"
+#include "../ContentGenerator.h"
 #include "../loggable/responses/ResponseError.h"
 class Communication {
 private:

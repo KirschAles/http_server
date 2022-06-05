@@ -16,7 +16,7 @@
 
 namespace fs = std::experimental::filesystem;
 
-class contentGenerator {
+class ContentGenerator {
 private:
     const Configuration &configuration;
     FileParser *fileParser = nullptr;
@@ -31,11 +31,11 @@ private:
 
     void buildHeaders();
 public:
-    contentGenerator(const std::string fileName, const Configuration &configuration);
+    ContentGenerator(const std::string fileName, const Configuration &configuration);
     const std::map<std::string, std::string> &getHeaders() const;
     bool isEmpty() { return fileParser->isEmpty();}
     std::string getChunk() { return std::move(fileParser->getChunk());}
-    ~contentGenerator();
+    ~ContentGenerator();
 };
 
 

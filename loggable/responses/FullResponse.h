@@ -15,7 +15,7 @@ protected:
     bool sendStatusLine();
     bool sendHeaders();
 public:
-    FullResponse(HttpConnection &connection, class contentGenerator &contentGenerator, const Configuration &configuration)
+    FullResponse(HttpConnection &connection, ContentGenerator &contentGenerator, const Configuration &configuration)
             : SimpleResponse(connection, contentGenerator), configuration(configuration) {}
     bool send() override;
 };
