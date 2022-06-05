@@ -1,17 +1,9 @@
 #include "ContentGenerator.h"
-#ifndef HTTP_SERVER_CONTENTGENERATOR_H
-#define HTTP_SERVER_CONTENTGENERATOR_H
-#include <fstream>
-#include <iostream>
-#include <cstdio>
-#include <map>
-#include <experimental/filesystem>
-#include "configuration.h"
-#include "codes.h"
+
 namespace fs = std::experimental::filesystem;
 
     // directory must be directory, should be checked by the configuration
-    static bool ContentGenerator::isSubdirectory(const fs::path &file, const fs::path &directory) {
+    bool ContentGenerator::isSubdirectory(const fs::path &file, const fs::path &directory) {
         if (fs::status(directory).type() != fs::file_type::directory) {
             // this should be checked by config but better to be safe
             throw std::runtime_error("Root is not Directory");
@@ -43,7 +35,7 @@ namespace fs = std::experimental::filesystem;
 
         switch (fs::status(file).type()) {
             case fs::file_type::directory:
-                return new FileParserDirectory(file, configuration);
+                return new FileParserDirectory(file, configuration.getChunkSize());
             case fs::file_type::regular:
                 return createFileParserOfRegular(file);
             default:
@@ -65,7 +57,7 @@ namespace fs = std::experimental::filesystem;
     void ContentGenerator::buildHeaders() {
         try {
             size_t contentLength = 0;
-            contentLength = fileParser->calculateSize();
+            contentLength = fileParser->getSize();
             headers["Content-Length"] = std::to_string(contentLength);
         }
         catch (std::runtime_error e) {
@@ -84,4 +76,3 @@ namespace fs = std::experimental::filesystem;
     }
 
 
-#endif
