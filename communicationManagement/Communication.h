@@ -13,13 +13,14 @@ private:
     const Configuration &configuration;
     const std::string code = codes::OK;
 
-
     Response *createResponse();
+
 public:
     Communication(HttpConnection &connection, const Configuration &configuration)
             : connection(connection), configuration(configuration) {}
     bool recieveRequest();
     void respond();
+
     void printRequest();
 };
 
