@@ -1,6 +1,6 @@
 #include "SimpleResponse.h"
 
-bool SimpleResponse::sendBody(contentGenerator &contentGenerator) {
+bool SimpleResponse::sendBody() {
     std::string body;
     while (!contentGenerator.isEmpty()) {
         if (!connection.send(contentGenerator.getChunk())) {

@@ -4,6 +4,8 @@
 #include "../loggable/requests/Request.h"
 #include "../loggable/requests/GETRequest.h"
 #include "../constants/codes.h"
+#include "../contentGenerator.h"
+#include "../loggable/responses/ResponseError.h"
 class Communication {
 private:
     HttpConnection &connection;
@@ -11,6 +13,8 @@ private:
     const Configuration &configuration;
     const std::string code = codes::OK;
 
+
+    Response *createResponse();
 public:
     Communication(HttpConnection &connection, const Configuration &configuration)
             : connection(connection), configuration(configuration) {}

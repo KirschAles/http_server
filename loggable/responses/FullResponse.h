@@ -13,11 +13,11 @@ protected:
     const Configuration &configuration;
 
     bool sendStatusLine();
-    bool sendHeaders(contentGenerator &contentGenerator);
+    bool sendHeaders();
 public:
-    FullResponse(HttpConnection &connection, const Configuration &configuration)
-            : SimpleResponse(connection), configuration(configuration) {}
-    bool send(contentGenerator &contentGenerator) override;
+    FullResponse(HttpConnection &connection, class contentGenerator &contentGenerator, const Configuration &configuration)
+            : SimpleResponse(connection, contentGenerator), configuration(configuration) {}
+    bool send() override;
 };
 
 

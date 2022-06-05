@@ -4,7 +4,7 @@ bool FullResponse::sendStatusLine() {
     return connection.send(line);
 }
 // TO DO: need to also implement sending of general headers, not only entity ones
-bool FullResponse::sendHeaders(contentGenerator &contentGenerator) {
+bool FullResponse::sendHeaders() {
     std::string headers;
     for (auto &headerValuePair: contentGenerator.getHeaders()) {
         headers += headerValuePair.first + ": " + headerValuePair.second + http::CRLF;
@@ -13,6 +13,6 @@ bool FullResponse::sendHeaders(contentGenerator &contentGenerator) {
     headers += http::CRLF;
     return connection.send(headers);
 }
-bool FullResponse::send(contentGenerator &contentGenerator) {
-    return sendStatusLine() && sendHeaders(contentGenerator) && sendBody(contentGenerator);
+bool FullResponse::send() {
+    return sendStatusLine() && sendHeaders() && sendBody();
 }
