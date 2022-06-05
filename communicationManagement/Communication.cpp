@@ -35,6 +35,10 @@ void Communication::respond() {
     response = createResponse();
     response->send();
     response->log(configuration.getLog());
+
+    if (response) {
+        delete response;
+    }
 }
 void Communication::printRequest() {
     request.print();
