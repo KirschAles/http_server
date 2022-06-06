@@ -13,6 +13,12 @@ public:
     bool send() override {
         return connection.send(exception.what());
     }
+    void log(const fs::path &path) override {}
+    ~SimpleErrorResponse() {
+        if (&exception) {
+            delete &exception;
+        }
+    }
 };
 
 

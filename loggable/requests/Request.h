@@ -5,6 +5,8 @@
 #include <map>
 #include <iostream>
 #include "../../constants/http.h"
+#include "../../exceptions/BadRequest.h"
+
 class Request: public Loggable {
 protected:
     std::string httpVersion;

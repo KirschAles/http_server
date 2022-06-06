@@ -21,9 +21,13 @@ Response *Communication::createResponse() {
             response = new FullResponse(connection, generator, configuration);
         }
     }
-    catch (std::runtime_error e) {
-        if (request.getVersion() == http::HTTP10) {
-           // response = new ResponseError(connection, e);
+    catch (HttpException *e) {
+        // exception is going to be freed in ErrorResponse destructor
+        if (request.getVersion() == http::HTTP09) {
+            response = new SimpleErrorResponse(connection, *e);
+        }
+        else {
+            response = new FullErrorResponse(connection, *e, http::HTTP10);
         }
     }
     return response;

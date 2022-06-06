@@ -26,22 +26,22 @@ std::string Request::getHeaderName(std::string &line) {
     for (pos = 0; ':' != (tmp = line[pos]); pos++) {
         // attribute name must be made of printable characters
         if (!std::isprint(tmp)) {
-            throw std::runtime_error("Header name in request is made of non-printable characters.");
+            throw new BadRequest("Header name in request is made of non-printable characters.");
         }
         else if (std::isspace(tmp)) {
-            throw std::runtime_error("Header name in request contains whitespace characters");
+            throw new BadRequest("Header name in request contains whitespace characters");
         }
         // the header name must not depend on the case of character
         name += tolower(tmp);
         if (pos == line.length() - 1) {
-            throw std::runtime_error("No ':' character in header");
+            throw new BadRequest("No ':' character in header");
         }
     }
     if (pos >= line.length() - 2) {
-        throw std::runtime_error("No value in header");
+        throw new BadRequest("No value in header");
     }
     if (line[++pos] != ' ') {
-        throw std::runtime_error("Bad format of header, missing space after ':'");
+        throw BadRequest("Bad format of header, missing space after ':'");
     }
     line = line.substr(++pos);
     return std::move(name);

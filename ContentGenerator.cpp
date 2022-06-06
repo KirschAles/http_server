@@ -6,7 +6,7 @@ namespace fs = std::experimental::filesystem;
     bool ContentGenerator::isSubdirectory(const fs::path &file, const fs::path &directory) {
         if (fs::status(directory).type() != fs::file_type::directory) {
             // this should be checked by config but better to be safe
-            throw InternalServerError("Root is not Directory");
+            throw new InternalServerError("Root is not Directory");
         }
         auto fileIter = file.begin();
         auto dirIter = directory.begin();
@@ -38,7 +38,7 @@ namespace fs = std::experimental::filesystem;
             case fs::file_type::regular:
                 return createFileParserOfRegular(file);
             default:
-                throw BadRequest("Type of file not supported.");
+                throw new BadRequest("Type of file not supported.");
         }
     }
 
@@ -47,11 +47,11 @@ namespace fs = std::experimental::filesystem;
     : configuration(configuration) {
         fs::path file = fs::path(configuration.getRootDirectory().string() + fileName);
         if (!fs::exists(file)) {
-            throw BadRequest("Requested file doesn't exist.");
+            throw new BadRequest("Requested file doesn't exist.");
         }
         file = fs::canonical(file);
         if (!isSubdirectory(file, configuration.getRootDirectory())) {
-            throw BadRequest("Requested file is not a subdirectory of the root.");
+            throw new BadRequest("Requested file is not a subdirectory of the root.");
         }
         // this line will throw error if the file cannot be opened or doesn't exist
         fileParser = createFileParser(file);
