@@ -11,8 +11,8 @@ private:
     fs::path rootDirectory = fs::canonical(fs::path("."));
     size_t chunkSize = 100000;
     fs::path logFile = fs::canonical(fs::path("./log.log"));
-    std::vector<std::string> scriptExtensions = {"sh", "py", "exe", "out"};
-    std::vector<std::string> textExtensions = {"txt", "cpp", "h", "html", "xml", "css", "json"};
+    std::vector<std::string> scriptExtensions = {".sh", ".py", ".exe", ".out"};
+    std::vector<std::string> textExtensions = {".txt", ".cpp", ".h", ".html", ".xml", ".css", ".json"};
 
 
     static bool isIn(const std::string &item, const std::vector<std::string> &items);
