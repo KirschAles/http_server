@@ -8,11 +8,11 @@
 class SimpleResponse: public Response {
 protected:
     HttpConnection &connection;
-    ContentGenerator &contentGenerator;
+    ContentGenerator contentGenerator;
     virtual bool sendBody();
 public:
     SimpleResponse(HttpConnection &connection, ContentGenerator &contentGenerator)
-            : connection(connection), contentGenerator(contentGenerator) {}
+            : connection(connection), contentGenerator(std::move(contentGenerator)) {}
     void log(const fs::path &file) override;
     // used like this, so fullResponse can also send headers along with the body
     bool send() override {
