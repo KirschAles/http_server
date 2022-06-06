@@ -2,6 +2,7 @@
 #define HTTP_SERVER_FULLRESPONSE_H
 #include "SimpleResponse.h"
 #include "../../constants/http.h"
+#include "../../constants/codes.h"
 
 // response to a http/1.0 request or later, will always use http/1.0 standard
 class FullResponse: public SimpleResponse {

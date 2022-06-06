@@ -3,7 +3,6 @@
 #include "HttpConnection.h"
 #include "../loggable/requests/Request.h"
 #include "../loggable/requests/GETRequest.h"
-#include "../constants/codes.h"
 #include "../ContentGenerator.h"
 #include "../loggable/responses/ResponseError.h"
 class Communication {
@@ -11,7 +10,7 @@ private:
     HttpConnection &connection;
     Request request;
     const Configuration &configuration;
-    const std::string code = codes::OK;
+    //const std::string code = codes::OK;
 
     Response *createResponse();
 

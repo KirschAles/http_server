@@ -19,12 +19,13 @@ const char * DEFAULT_CONFIG = "./config.txt";
 
 int main(int argc, char *argv[]) {
     Configuration configuration;
-    if (argc >= 2) {
+    /*if (argc >= 2) {
         configuration.load(argv[1]);
     }
     else {
         configuration.load(DEFAULT_CONFIG);
-    }
+    }*/
+    std::cout << "here";
     Server server(configuration);
     server.bind();
     server.listen();
