@@ -2,7 +2,10 @@
 #define HTTP_SERVER_RESPONSEERROR_H
 #include "FullResponse.h"
 
-class ResponseError: public FullResponse {};
+class ResponseError: public FullResponse {
+public:
+    ResponseError()
+};
 
 
 
