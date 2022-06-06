@@ -4,7 +4,11 @@
 #include "../loggable/requests/Request.h"
 #include "../loggable/requests/GETRequest.h"
 #include "../ContentGenerator.h"
-#include "../loggable/responses/ResponseError.h"
+#include "../loggable/responses/SimpleErrorResponse.h"
+#include "../exceptions/BadRequest.h"
+#include "../exceptions/InternalServerError.h"
+#include "../exceptions/MultipleChoices.h"
+
 class Communication {
 private:
     HttpConnection &connection;

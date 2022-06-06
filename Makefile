@@ -46,7 +46,7 @@ simpleResponse.o: loggable/responses/SimpleResponse.cpp
 	$(CC) $(CFLAGS) -c loggable/responses/SimpleResponse.cpp -o simpleResponse.o
 fullResponse.o: loggable/responses/FullResponse.cpp
 	$(CC) $(CFLAGS) -c loggable/responses/FullResponse.cpp -o fullResponse.o
-responseError.o: loggable/responses/ResponseError.cpp
+responseError.o: loggable/responses/SimpleErrorResponse.cpp
 	$(CC) $(CFLAGS) -c loggable/responses/ResponseError.cpp -o responseError.o
 
 
