@@ -12,6 +12,9 @@
 #include "fileParsers/FileParserDirectory.h"
 #include "fileParsers/FileParserBinary.h"
 #include "fileParsers/FileParserText.h"
+#include "exceptions/BadRequest.h"
+#include "exceptions/InternalServerError.h"
+
 
 namespace fs = std::experimental::filesystem;
 
