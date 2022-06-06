@@ -15,8 +15,7 @@ private:
     std::vector<std::string> textExtensions = {"txt", "cpp", "h", "html", "xml", "css", "json"};
 
 
-    template<class T>
-    static bool isIn(const T& item, const std::vector<T> &items);
+    static bool isIn(const std::string &item, const std::vector<std::string> &items);
 public:
     Configuration() = default;
     bool load(const std::string &file);

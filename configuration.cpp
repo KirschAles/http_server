@@ -5,8 +5,7 @@ bool Configuration::load(const std::string &configFile) {
     return true;
 }
 
-template<class T>
-bool Configuration::isIn(const T& item, const std::vector<T> &items) {
+bool Configuration::isIn(const std::string &item, const std::vector<std::string> &items) {
     for (auto &thing: items) {
         if (item == thing) {
             return true;
