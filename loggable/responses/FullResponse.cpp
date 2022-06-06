@@ -10,7 +10,6 @@ bool FullResponse::sendHeaders() {
         headers += headerValuePair.first + ": " + headerValuePair.second + http::CRLF;
     }
     headers += http::CRLF;
-    headers += http::CRLF;
     return connection.send(headers);
 }
 bool FullResponse::send() {
