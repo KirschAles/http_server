@@ -31,6 +31,11 @@ private:
     void buildHeaders();
 public:
     ContentGenerator(const std::string fileName, const Configuration &configuration);
+    ContentGenerator(ContentGenerator &&contentGenerator)
+    : configuration(configuration), fileParser(fileParser), headers(std::move(headers)) {
+        // set to NULL so the parser isn't destroyed when original deconstructs
+        contentGenerator.fileParser = nullptr;
+    }
     const std::map<std::string, std::string> &getHeaders() const;
     bool isEmpty() { return fileParser->isEmpty();}
     std::string getChunk() { return std::move(fileParser->getChunk());}
