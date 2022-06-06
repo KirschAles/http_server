@@ -32,7 +32,9 @@ private:
 public:
     ContentGenerator(const std::string fileName, const Configuration &configuration);
     ContentGenerator(ContentGenerator &&contentGenerator)
-    : configuration(configuration), fileParser(fileParser), headers(std::move(headers)) {
+    : configuration(contentGenerator.configuration),
+      fileParser(contentGenerator.fileParser),
+      headers(std::move(contentGenerator.headers)) {
         // set to NULL so the parser isn't destroyed when original deconstructs
         contentGenerator.fileParser = nullptr;
     }
