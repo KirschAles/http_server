@@ -32,7 +32,6 @@ namespace fs = std::experimental::filesystem;
         }
     }
     FileParser *ContentGenerator::createFileParser(const fs::path &file) {
-
         switch (fs::status(file).type()) {
             case fs::file_type::directory:
                 return new FileParserDirectory(file, configuration.getChunkSize());
@@ -46,7 +45,6 @@ namespace fs = std::experimental::filesystem;
 
     ContentGenerator::ContentGenerator(const std::string fileName, const Configuration &configuration)
     : configuration(configuration) {
-
         fs::path file = fs::canonical(fs::path(configuration.getRootDirectory().string() + fileName));
         if (!isSubdirectory(file, configuration.getRootDirectory())) {
             throw std::runtime_error("Requested file is not a subdirectory of the root.");
