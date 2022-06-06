@@ -1,12 +1,11 @@
 #ifndef HTTP_SERVER_MULTIPLECHOICES_H
 #define HTTP_SERVER_MULTIPLECHOICES_H
-#include <stdexcept>
+#include "HttpException.h"
 
-class MultipleChoices: public std::runtime_error {
+class MultipleChoices: public HttpException {
 public:
-    MultipleChoices(const std::string &eMessage): std::runtime_error(eMessage) {}
-    MultipleChoices(const MultipleChoices &error): std::runtime_error(error) {}
-    MultipleChoices(MultipleChoices &&error): std::runtime_error(std::move(error)) {}
-    MultipleChoices &operator=(const MultipleChoices &error) = default;
+    MultipleChoices(const std::string &eMessage): HttpException(eMessage, codes::MultipleChoices) {}
+    MultipleChoices(const MultipleChoices &error): HttpException(error) {}
+    MultipleChoices(MultipleChoices &&error): HttpException(std::move(error)) {}
 };
 #endif //HTTP_SERVER_MULTIPLECHOICES_H

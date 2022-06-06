@@ -1,12 +1,11 @@
 #ifndef HTTP_SERVER_INTERNALSERVERERROR_H
 #define HTTP_SERVER_INTERNALSERVERERROR_H
-#include <stdexcept>
+#include "HttpException.h"
 
-class InternalServerError: public std::runtime_error {
+class InternalServerError: public HttpException {
 public:
-    InternalServerError(const std::string &eMessage): std::runtime_error(eMessage) {}
-    InternalServerError(const InternalServerError &error): std::runtime_error(error) {}
-    InternalServerError(InternalServerError &&error): std::runtime_error(std::move(error)) {}
-    InternalServerError &operator=(const InternalServerError &error) = default;
+    InternalServerError(const std::string &eMessage): HttpException(eMessage, codes::InternalServerError) {}
+    InternalServerError(const InternalServerError &error): HttpException(error) {}
+    InternalServerError(InternalServerError &&error): HttpException(std::move(error)) {}
 };
 #endif //HTTP_SERVER_INTERNALSERVERERROR_H

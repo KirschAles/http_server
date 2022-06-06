@@ -1,12 +1,11 @@
 #ifndef HTTP_SERVER_BADREQUEST_H
 #define HTTP_SERVER_BADREQUEST_H
-#include <stdexcept>
-class BadRequest: public std::runtime_error {
+#include "HttpException.h"
+#include "../constants/codes.h"
+class BadRequest: public HttpException {
 public:
-    BadRequest(const std::string &eMessage): std::runtime_error(eMessage) {}
-    BadRequest(const BadRequest &error): std::runtime_error(error) {}
-    BadRequest(BadRequest &&error): std::runtime_error(std::move(error)) {}
-    BadRequest &operator=(const BadRequest &error) = default;
-
+    BadRequest(const std::string &eMessage): HttpException(eMessage, codes::BadRequest) {}
+    BadRequest(const BadRequest &error): HttpException(error) {}
+    BadRequest(BadRequest &&error): HttpException(std::move(error)) {}
 };
 #endif //HTTP_SERVER_BADREQUEST_H
