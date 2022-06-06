@@ -46,7 +46,8 @@ namespace fs = std::experimental::filesystem;
 
     ContentGenerator::ContentGenerator(const std::string fileName, const Configuration &configuration)
     : configuration(configuration) {
-        fs::path file = fs::canonical(fs::path(fileName));
+
+        fs::path file = fs::canonical(fs::path(configuration.getRootDirectory().string() + fileName));
         if (!isSubdirectory(file, configuration.getRootDirectory())) {
             throw std::runtime_error("Requested file is not a subdirectory of the root.");
         }
