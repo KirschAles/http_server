@@ -6,13 +6,13 @@ void Communication::recieveRequest() {
         requestName = connection.getBytes(4);
     }
     catch (std::runtime_error e) {
-        throw BadRequest("Request is too small.");
+        throw new BadRequest("Request is too small.");
     }
     if (requestName == "GET ") {
         request = std::move(GETRequest(connection, httpVersion));
     }
     else {
-        throw BadRequest("Unknown Request type.");
+        throw new BadRequest("Unknown Request type.");
     }
 }
 Response *Communication::createErrorResponse(HttpException &e) {
