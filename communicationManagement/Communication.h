@@ -24,7 +24,7 @@ private:
 public:
     Communication(HttpConnection &connection, const Configuration &configuration)
             : connection(connection), configuration(configuration) {}
-    bool recieveRequest();
+    void recieveRequest();
     void respond();
     void communicate();
 

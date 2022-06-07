@@ -1,14 +1,19 @@
 #include "Communication.h"
 
-bool Communication::recieveRequest() {
-    std::string requestName = connection.getBytes(3);
-    if (requestName == "GET" && connection.getByte() == ' ') {
+void Communication::recieveRequest() {
+    std::string requestName;
+    try {
+        requestName = connection.getBytes(4);
+    }
+    catch (std::runtime_error e) {
+        throw BadRequest("Request is too small.");
+    }
+    if (requestName == "GET ") {
         request = std::move(GETRequest(connection, httpVersion));
     }
     else {
-        return false;
+        throw BadRequest("Unknown Request type.");
     }
-    return true;
 }
 Response *Communication::createErrorResponse(HttpException &e) {
     Response *response = nullptr;
