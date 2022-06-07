@@ -5,8 +5,8 @@
 class GETRequest: public Request {
 private:
 public:
-    GETRequest(HttpConnection &connection)
-            : Request(connection) {
+    GETRequest(HttpConnection &connection, std::string &version)
+            : Request(connection, version) {
     }
 };
 

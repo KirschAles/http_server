@@ -36,8 +36,7 @@ int main(int argc, char *argv[]) {
         std::cout << "Accepted" << std::endl;
         HttpConnection conn(connection);
         Communication comm(conn, configuration);
-        comm.recieveRequest();
-        comm.respond();
+        comm.communicate();
     }
     return 0;
 }

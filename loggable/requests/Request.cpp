@@ -12,10 +12,10 @@ std::string Request::setFileName(const std::string line) {
     return std::move(line.substr(++pos));
 }
 
-void Request::setRequestLine(HttpConnection &connection) {
+void Request::setRequestLine(HttpConnection &connection, std::string &version) {
     std::string line = connection.getLine();
     std::string remainingLine = setFileName(line);
-    setHttpVersion(remainingLine);
+    setHttpVersion(remainingLine, version);
 
 }
 // line must be at least one character long, otherwise undefined behaviour
@@ -60,8 +60,8 @@ bool Request::setHeaders(HttpConnection &connection) {
     }
     return true;
 }
-Request::Request(HttpConnection &connection) {
-    setRequestLine(connection);
+Request::Request(HttpConnection &connection, std::string &version) {
+    setRequestLine(connection, version);
     setHeaders(connection);
 }
 

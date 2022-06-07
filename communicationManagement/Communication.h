@@ -17,15 +17,16 @@ private:
     HttpConnection &connection;
     Request request;
     const Configuration &configuration;
-    //const std::string code = codes::OK;
+    std::string httpVersion;
 
     Response *createResponse();
-
+    Response *createErrorResponse(HttpException &e);
 public:
     Communication(HttpConnection &connection, const Configuration &configuration)
             : connection(connection), configuration(configuration) {}
     bool recieveRequest();
     void respond();
+    void communicate();
 
     void printRequest();
 };

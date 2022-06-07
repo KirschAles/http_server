@@ -14,13 +14,14 @@ protected:
     std::string fileName;
 
     std::string setFileName(const std::string line);
-    void setHttpVersion(const std::string &line) {
+    void setHttpVersion(const std::string &line, std::string &version) {
         // there should be nothing else but the http version here
         // if there is nothing than it means that the request is a simple request
         // and thus http/0.9
         httpVersion = line.length()>0 ? line : http::HTTP09;
+        version = httpVersion;
     }
-    void setRequestLine(HttpConnection &connection);
+    void setRequestLine(HttpConnection &connection, std::string &version);
     // line must be at least one character long, otherwise undefined behaviour
     std::string getHeaderName(std::string &line);
     void setHeader(std::string &line);
@@ -28,7 +29,7 @@ protected:
 public:
     Request() {}
     // On ERROR throws std::runtime_error
-    Request(HttpConnection &connection);
+    Request(HttpConnection &connection, std::string &version);
     Request(const Request &request)
             : fileName(request.fileName), httpVersion(request.httpVersion), headers(request.headers) {}
     Request(Request &&request)
