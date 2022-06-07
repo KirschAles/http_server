@@ -2,6 +2,8 @@
 #define HTTP_SERVER_SERVER_H
 #include "../configuration.h"
 #include "Connection.h"
+#include <fcntl.h>
+
 
 class Server {
     int sockfd;
