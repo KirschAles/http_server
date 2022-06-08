@@ -53,6 +53,6 @@ size_t FileParserScript::getSize() const {
 }
 FileParserScript::~FileParserScript() {
     if (output) {
-        std::fclose(output);
+        pclose(output);
     }
 }

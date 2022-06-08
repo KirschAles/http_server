@@ -2,6 +2,7 @@
 #define HTTP_SERVER_FILEPARSERSCRIPT_H
 #include "FileParser.h"
 #include "sys/stat.h"
+#include <cstdio>
 class FileParserScript: public FileParser {
 protected:
     // it will just output the contents of the directory,
@@ -19,7 +20,7 @@ public:
     std::string getChunk() override;
     bool isEmpty() const override;
     size_t getSize() const override;
-    virtual ~FileParserScript();
+    ~FileParserScript() override;
 };
 
 

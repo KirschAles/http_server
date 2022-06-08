@@ -15,7 +15,7 @@ public:
     std::string getChunk() override;
     bool isEmpty() const override;
     size_t getSize() const override {return size;}
-    virtual ~FileParserRegular();
+    ~FileParserRegular() override;
 };
 
 

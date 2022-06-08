@@ -17,6 +17,7 @@ public:
     virtual std::string getChunk() {return std::string();}
     virtual bool isEmpty() const {return true;}
     virtual size_t getSize() const {return 0;}
+    virtual ~FileParser() {}
 };
 
 
