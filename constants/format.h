@@ -7,11 +7,10 @@ namespace format {
     const std::string message = formatter + "m";
     const std::string time = formatter + "t";
     const std::string ipAddress = formatter + "I";
-    const std::string port = formatter + "p";
     const std::string domain = formatter + "d";
     const std::string procent = formatter + formatter;
 
-    std::vector<std::string> allFormats {message, time, ipAddress, port, domain, procent};
+    std::vector<std::string> allFormats {message, time, ipAddress, domain, procent};
 }
 
 #endif //HTTP_SERVER_FORMAT_H
