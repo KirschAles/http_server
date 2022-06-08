@@ -81,6 +81,60 @@ std::string Connection::recieve(size_t maximumSize) const {
     delete[] buffer;
     return std::move(message);
 }
+std::string Connection::getIp4Address() const {
+    char ip4[INET_ADDRSTRLEN];
+    struct sockaddr_in *address = (sockaddr_in *) &connectedAddr;
+    inet_ntop(AF_INET, &(address->sin_addr), ip4, INET_ADDRSTRLEN);
+    return std::move(std::string(ip4));
+}
+std::string Connection::getIp6Address() const {
+    char ip6[INET6_ADDRSTRLEN];
+    struct sockaddr_in6 *address = (sockaddr_in6 *) &connectedAddr;
+    inet_ntop(AF_INET6, &(address->sin6_addr), ip6, INET6_ADDRSTRLEN);
+    return std::move(std::string(ip6));
+}
+std::string Connection::getIpAddress() const {
+    if (connectedAddr.ss_family == AF_INET) {
+        return std::move(getIp4Address());
+    }
+    if (connectedAddr.ss_family == AF_INET6) {
+        return std::move(getIp6Address());
+    }
+    // this should never happend
+    // here just so the programm doesn't become unusable if a new IP standard comes out
+    return "";
+}
+std::string Connection::getIp4Domain() const {
+    struct sockaddr_in *address = (sockaddr_in *) &connectedAddr;
+    char *domain = new char[configuration.getChunkSize()];
+    if (getnameinfo((sockaddr *) address, sizeof(*address), domain, sizeof(domain[0])*configuration.getChunkSize(), nullptr, 0, 0)) {
+        return mixed::unknown;
+    }
+    std::string cppDomain = std::string(domain);
+    delete [] domain;
+    return std::move(cppDomain);
+}
+std::string Connection::getIp6Domain() const {
+    struct sockaddr_in6 *address = (sockaddr_in6 *) &connectedAddr;
+    char *domain = new char[configuration.getChunkSize()];
+    if (getnameinfo((sockaddr *) address, sizeof(*address), domain, sizeof(domain[0])*configuration.getChunkSize(), nullptr, 0, 0)) {
+        delete [] domain;
+        return mixed::unknown;
+    }
+    std::string cppDomain = std::string(domain);
+    delete [] domain;
+    return std::move(cppDomain);
+}
+std::string Connection::getDomain() const {
+    if (connectedAddr.ss_family == AF_INET) {
+        return std::move(getIp4Domain());
+    }
+    if (connectedAddr.ss_family == AF_INET6) {
+        return std::move(getIp6Domain());
+    }
+    // in case of a new standard
+    return mixed::unknown;
+}
 Connection::~Connection(){
     close();
 }

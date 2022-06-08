@@ -20,6 +20,11 @@ private:
     sockaddr_storage connectedAddr;
     const Configuration &configuration;
 
+    std::string getIp4Address() const;
+    std::string getIp6Address() const;
+
+    std::string getIp4Domain() const;
+    std::string getIp6Domain() const;
 public:
     Connection(int sockfd, sockaddr_storage &addr, size_t addrSize, const Configuration &configuration);
     Connection(const Connection &connection);
@@ -40,6 +45,8 @@ public:
     // ERRORS: throws runtime_error if the recieving of message fails
     std::string recieve(size_t maximumSize) const;
     void close() {::close(sockfd);}
+    std::string getIpAddress() const;
+    std::string getDomain() const;
     ~Connection();
 };
 
