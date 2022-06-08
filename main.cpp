@@ -2,7 +2,7 @@
 #include "configuration.h"
 #include "communicationManagement/Server.h"
 #include "communicationManagement/Communication.h"
-
+#include "Logger.h"
 const char *DEFAULT_CONFIG = "./config.txt";
 /* TODO:
  *      replace runtime_error() with custom exception_classes
@@ -33,12 +33,13 @@ int main(int argc, char *argv[]) {
     std::cout << "Listening" << std::endl;
     // TO DO: implemented a way to turn the server off
     bool keepRunning = true;
+    Logger logger(configuration);
     while (keepRunning) {
         Connection connection = server.accept();
         std::cout << "Accepted" << std::endl;
         HttpConnection conn(connection);
         Communication comm(conn, configuration);
-        keepRunning = comm.communicate();
+        keepRunning = comm.communicate(logger);
     }
     std::cout << "turning off" << std::endl;
     return 0;

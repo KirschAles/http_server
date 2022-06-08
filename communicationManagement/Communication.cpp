@@ -41,7 +41,7 @@ Response *Communication::createResponse(Request *request) {
 
 }
 
-bool Communication::communicate() {
+bool Communication::communicate(Logger &logger) {
     Response *response = nullptr;
     Request *request = nullptr;
 
@@ -50,13 +50,20 @@ bool Communication::communicate() {
         request = recieveRequest();
         connection.stopRecording();
         response = createResponse(request);
+
+        logger.log(request->getPartialMessage(), connection.getIpAddress(), connection.getDomain());
+        logger.log(response->getPartialMessage(), connection.getIpAddress(), connection.getDomain());
     }
     catch (HttpException *e) {
+        connection.stopRecording();
         response = createErrorResponse(*e);
+        logger.log(connection.getRecords(), connection.getIpAddress(), connection.getDomain());
+        logger.log(response->getFullMessage(), connection.getIpAddress(), connection.getDomain());
     }
     catch (std::runtime_error e) {
         return false;
     }
+
     response->send();
     if (response) {
         delete response;

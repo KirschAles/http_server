@@ -11,6 +11,7 @@
 #include "../exceptions/BadRequest.h"
 #include "../exceptions/InternalServerError.h"
 #include "../exceptions/MultipleChoices.h"
+#include "../Logger.h"
 
 class Communication {
 private:
@@ -24,7 +25,7 @@ public:
     Communication(HttpConnection &connection, const Configuration &configuration)
             : connection(connection), configuration(configuration), httpVersion(http::HTTP09) {}
     Request *recieveRequest();
-    bool communicate();
+    bool communicate(Logger &logger);
 
 };
 
