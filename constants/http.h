@@ -1,10 +1,10 @@
 #ifndef HTTP_SERVER_HTTP_H
 #define HTTP_SERVER_HTTP_H
-
+#include <string>
 namespace http {
-    constexpr char * HTTP09 = "HTTP/0.9";
-    constexpr char * HTTP10 = "HTTP/1.0";
-    constexpr char * CRLF = "\r\n";
+    const std::string HTTP09 = "HTTP/0.9";
+    const std::string HTTP10 = "HTTP/1.0";
+    const std::string CRLF = "\r\n";
 }
 
 #endif //HTTP_SERVER_HTTP_H

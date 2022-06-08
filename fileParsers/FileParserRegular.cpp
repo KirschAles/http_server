@@ -2,7 +2,7 @@
 FileParserRegular::FileParserRegular(const fs::path &filePath,
                                      size_t chunkSize,
                                      std::ios_base::openmode mode)
-        : FileParser(chunkSize), path(filePath), file(filePath, mode) {
+        : FileParser(chunkSize), file(filePath, mode), path(filePath) {
     if (file.fail()) {
         std::string error;
         error += "File ";

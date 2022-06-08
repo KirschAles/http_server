@@ -32,9 +32,11 @@ public:
     // On ERROR throws std::runtime_error
     Request(HttpConnection &connection, std::string &version);
     Request(const Request &request)
-            : fileName(request.fileName), httpVersion(request.httpVersion), headers(request.headers) {}
+    : httpVersion(request.httpVersion), fileName(request.fileName), headers(request.headers) {}
     Request(Request &&request)
-            : fileName(std::move(request.fileName)), httpVersion(request.httpVersion), headers(request.headers) {}
+    : httpVersion(std::move(request.httpVersion)),
+      fileName(std::move(request.fileName)),
+      headers(std::move(request.headers)) {}
     Request &operator=(const Request &request);
     void log(const fs::path &logFile) override ;
     Request &operator=(Request &&request);
