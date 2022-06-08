@@ -10,11 +10,11 @@ private:
     char *ipAddress = NULL;
     fs::path rootDirectory = fs::canonical(fs::path("."));
     size_t chunkSize = 100000;
-    std::string logFile = fs::path("./log.log");
+    fs::path logFile = fs::path("./log.log");
     fs::path killFile = fs::path("./kill");
     std::vector<std::string> scriptExtensions = {".sh", ".py", ".exe", ".out"};
     std::vector<std::string> textExtensions = {".txt", ".cpp", ".h", ".html", ".xml", ".css", ".json"};
-    std::string logFormat = "";
+    std::string logFormat = "log:\n \tdomain: %d \tIP address: %I\n\tmessage: %m\n\n";
 
     static bool isIn(const std::string &item, const std::vector<std::string> &items);
 public:
