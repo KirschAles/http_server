@@ -31,12 +31,14 @@ int main(int argc, char *argv[]) {
     server.listen();
     std::cout << "Listening" << std::endl;
     // TO DO: implemented a way to turn the server off
-    while (true) {
+    bool keepRunning = true;
+    while (keepRunning) {
         Connection connection = server.accept();
         std::cout << "Accepted" << std::endl;
         HttpConnection conn(connection);
         Communication comm(conn, configuration);
-        comm.communicate();
+        keepRunning = comm.communicate();
     }
+    std::cout << "turning off" << std::endl;
     return 0;
 }

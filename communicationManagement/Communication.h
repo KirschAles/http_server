@@ -26,7 +26,7 @@ public:
             : connection(connection), configuration(configuration), httpVersion(http::HTTP09) {}
     void recieveRequest();
     void respond();
-    void communicate();
+    bool communicate();
 
     void printRequest();
 };

@@ -49,7 +49,7 @@ void Communication::respond() {
         delete response;
     }
 }
-void Communication::communicate() {
+bool Communication::communicate() {
     Response *response = nullptr;
     try {
         recieveRequest();
@@ -58,11 +58,16 @@ void Communication::communicate() {
     catch (HttpException *e) {
         response = createErrorResponse(*e);
     }
+    catch (std::runtime_error e) {
+        std::cout << e.what();
+        return false;
+    }
     response->send();
     response->log(configuration.getLog());
     if (response) {
         delete response;
     }
+    return true;
 }
 void Communication::printRequest() {
     request.print();

@@ -41,11 +41,40 @@ namespace fs = std::experimental::filesystem;
                 throw new BadRequest("Type of file not supported.");
         }
     }
+    fs::path ContentGenerator::removeDots(const fs::path &file) const {
+        fs::path newPath;
+        for (auto iterator =  file.begin(); iterator != file.end(); ++iterator) {
+            if (*iterator == "~") {
+                throw new BadRequest("Bad File Format");
+            }
+            if (*iterator == "..") {
+                newPath.remove_filename();
+            }
+            else if (*iterator != ".") {
+                newPath /= *iterator;
+            }
+        }
+        return newPath;
+    }
+    bool ContentGenerator::isEqual(const fs::path &file1, const fs::path &file2) const {
+        fs::path file1Rel = removeDots(file1.relative_path());
+        fs::path file2Rel = removeDots(file2.relative_path());
+        auto iterator1 = file1Rel.begin();
+        auto iterator2 = file2Rel.begin();
 
-
+        for (;iterator1 != file1Rel.end() && iterator2 != file2Rel.end(); ++iterator1, ++iterator2) {
+            if (*iterator1 != *iterator2) {
+                return false;
+            }
+        }
+        return iterator1 == file1Rel.end() && iterator2 == file2Rel.end();
+    }
     ContentGenerator::ContentGenerator(const std::string fileName, const Configuration &configuration)
     : configuration(configuration) {
         fs::path file = fs::path(configuration.getRootDirectory().string() + fileName);
+        if (isEqual(file, absolute(configuration.getKillFile()))) {
+            throw std::runtime_error("Turning off.");
+        }
         if (!fs::exists(file)) {
             throw new BadRequest("Requested file doesn't exist.");
         }

@@ -30,7 +30,8 @@ private:
     //        this is just a temporary solution
     FileParser *createFileParserOfRegular(const fs::path &file);
     FileParser *createFileParser(const fs::path &file);
-
+    bool isEqual(const fs::path &file1, const fs::path &file2) const;
+    fs::path removeDots(const fs::path &file) const;
     void buildHeaders();
 public:
     ContentGenerator(const std::string fileName, const Configuration &configuration);
