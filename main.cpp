@@ -37,7 +37,7 @@ int main(int argc, char *argv[]) {
     while (keepRunning) {
         Connection connection = server.accept();
         std::cout << "Accepted" << std::endl;
-        HttpConnection conn(connection);
+        HttpConnection conn(connection, configuration);
         Communication comm(conn, configuration);
         keepRunning = comm.communicate(logger);
     }

@@ -8,12 +8,12 @@ class HttpConnection {
 private:
     const Connection &connection;
     std::deque<char> buffer;
-    size_t chunkLength = 500;
+    size_t chunkLength ;
     std::string recording;
     bool isRecording = false;
 public:
-    HttpConnection(const Connection &connection)
-            : connection(connection) {}
+    HttpConnection(const Connection &connection, const Configuration &configuration)
+            : connection(connection), chunkLength(configuration.getChunkSize()) {}
     void rollBackByte(char byte);
     bool newChunk();
     bool assertSize(size_t size);
