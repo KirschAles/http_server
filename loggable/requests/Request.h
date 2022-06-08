@@ -55,6 +55,7 @@ public:
     std::string getFullMessage() override {return std::move(buildFullRequest());}
     std::string getPartialMessage() override {return std::move(buildStatusLine());}
     void print();
+    virtual ~Request() {}
 
 };
 
