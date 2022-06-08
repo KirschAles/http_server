@@ -26,6 +26,7 @@ protected:
     std::string getHeaderName(std::string &line);
     void setHeader(std::string &line);
     bool setHeaders(HttpConnection &connection);
+    std::string getLineSafely(HttpConnection &connection);
 public:
     Request() {}
     // On ERROR throws std::runtime_error

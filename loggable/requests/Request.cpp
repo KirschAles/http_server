@@ -1,4 +1,13 @@
 #include "Request.h"
+
+std::string Request::getLineSafely(HttpConnection &connection) {
+    try {
+        return std::move(connection.getLine());
+    }
+    catch (std::runtime_error e) {
+        throw new BadRequest("Bad Format");
+    }
+}
 std::string Request::setFileName(const std::string line) {
     size_t pos;
     for (pos = 0; line[pos] != ' '; pos++) {
@@ -13,7 +22,7 @@ std::string Request::setFileName(const std::string line) {
 }
 
 void Request::setRequestLine(HttpConnection &connection, std::string &version) {
-    std::string line = connection.getLine();
+    std::string line = getLineSafely(connection);
     std::string remainingLine = setFileName(line);
     setHttpVersion(remainingLine, version);
 
@@ -53,10 +62,10 @@ void Request::setHeader(std::string &line) {
     }
 }
 bool Request::setHeaders(HttpConnection &connection) {
-    std::string line = connection.getLine();
+    std::string line = getLineSafely(connection);
     while (line.length() != 0) {
         setHeader(line);
-        line = connection.getLine();
+        line = getLineSafely(connection);
     }
     return true;
 }
