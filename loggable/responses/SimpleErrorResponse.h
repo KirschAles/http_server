@@ -14,7 +14,7 @@ public:
         return connection.send(exception.what());
     }
     void log(const fs::path &path) override {}
-    ~SimpleErrorResponse() {
+    ~SimpleErrorResponse() override {
         if (&exception) {
             delete &exception;
         }
