@@ -3,13 +3,11 @@
 #include "communicationManagement/Server.h"
 #include "communicationManagement/Communication.h"
 
-const char * DEFAULT_CONFIG = "./config.txt";
+const char *DEFAULT_CONFIG = "./config.txt";
 /* TODO:
- *      implement turning off of the server
- *      implement actual error handling
  *      replace runtime_error() with custom exception_classes
  *      fix integer overflow vulnerability on filePasser::calculateSize()
- *      decide how to handle URIs with spaces in them
+ *      dealt with stuff in %n format
  *      implement Configuration::load()
  *      implement log() for both requests and responses
  *      implement a costumizable way to decide how should different fileExtensions be handled
