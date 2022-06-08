@@ -51,8 +51,8 @@ std::string Connection::recieve(size_t maximumSize) const {
     FD_SET(sockfd, &setOfSockets); // add our socket to the structure
 
     struct timeval timeout;
-    timeout.tv_sec = 2;
-    timeout.tv_usec = 0;
+    timeout.tv_sec = configuration.getTimeoutSeconds();
+    timeout.tv_usec = configuration.getTimeoutMicroSeconds();
     do {
 
         int canWeRecievie = select(sockfd+1, &setOfSockets, NULL, NULL, &timeout);

@@ -2,6 +2,8 @@
 #define HTTP_SERVER_CONFIGURATION_H
 #include <iostream>
 #include <experimental/filesystem>
+#include <fstream>
+#include <ctime>
 
 namespace fs = std::experimental::filesystem;
 class Configuration {
@@ -15,6 +17,8 @@ private:
     std::vector<std::string> scriptExtensions = {".sh", ".py", ".exe", ".out"};
     std::vector<std::string> textExtensions = {".txt", ".cpp", ".h", ".html", ".xml", ".css", ".json"};
     std::string logFormat = "log:\n \tdomain: %d \tIP address: %I\n\tmessage: %m\n\n";
+    __suseconds_t timoutMicroSeconds = 0;
+    __time_t timoutSeconds = 3;
 
     static bool isIn(const std::string &item, const std::vector<std::string> &items);
 public:
@@ -32,6 +36,8 @@ public:
     bool isText(const std::string &extension) const {return isIn(extension, textExtensions);};
     const fs::path &getKillFile() const {return killFile;}
     const std::string &getLogFormat() const {return logFormat;}
+    __suseconds_t getTimeoutMicroSeconds() const {return timoutMicroSeconds;}
+    __time_t getTimeoutSeconds() const {return timoutSeconds;}
 };
 
 #endif //HTTP_SERVER_CONFIGURATION_H
