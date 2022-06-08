@@ -10,5 +10,6 @@ protected:
     HttpException(HttpException &&error): std::runtime_error(std::move(error)), code(std::move(error.code)) {}
 public:
     const std::string &getCode() const {return code;}
+    virtual ~HttpException() {}
 };
 #endif //HTTP_SERVER_HTTPEXCEPTION_H
