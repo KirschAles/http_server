@@ -6,14 +6,12 @@ clean:
 	rm *.exe
 
 all: main.exe
-main.exe: main.o configuration.o contentGenerator.o communication.o connection.o httpConnection.o server.o fileParser.o fileParserScript.o fileParserDirectory.o fileParserRegular.o fileParserBinary.o fileParserText.o loggable.o request.o getRequest.o simpleResponse.o fullResponse.o fullErrorResponse.o simpleErrorResponse.o
-	$(CC) $(CFLAGS) -o main.exe main.o configuration.o contentGenerator.o communication.o connection.o httpConnection.o server.o fileParser.o fileParserScript.o fileParserDirectory.o fileParserRegular.o fileParserBinary.o fileParserText.o loggable.o request.o getRequest.o simpleResponse.o fullResponse.o fullErrorResponse.o simpleErrorResponse.o -lstdc++fs
+main.exe: main.o configuration.o contentGenerator.o communication.o connection.o httpConnection.o server.o fileParser.o fileParserScript.o fileParserDirectory.o fileParserRegular.o fileParserBinary.o fileParserText.o loggable.o request.o getRequest.o simpleResponse.o fullResponse.o fullErrorResponse.o simpleErrorResponse.o logger.o
+	$(CC) $(CFLAGS) -o main.exe main.o configuration.o contentGenerator.o communication.o connection.o httpConnection.o server.o fileParser.o fileParserScript.o fileParserDirectory.o fileParserRegular.o fileParserBinary.o fileParserText.o loggable.o request.o getRequest.o simpleResponse.o fullResponse.o fullErrorResponse.o simpleErrorResponse.o logger.o -lstdc++fs -fsanitize=address
 configuration.o: configuration.cpp
 	$(CC) $(CFLAGS) -c configuration.cpp -o configuration.o
 main.o: main.cpp
 	$(CC) $(CFLAGS) -c main.cpp -o main.o
-codes.o: constants/codes.cpp
-	$(CC) $(CFLAGS) -c constants/codes.cpp -o codes.o
 contentGenerator.o: ContentGenerator.cpp
 	$(CC) $(CFLAGS) -c ContentGenerator.cpp -o contentGenerator.o
 communication.o: communicationManagement/Communication.cpp
@@ -50,5 +48,7 @@ fullErrorResponse.o: loggable/responses/FullErrorResponse.cpp
 	$(CC) $(CFLAGS) -c loggable/responses/FullErrorResponse.cpp -o fullErrorResponse.o
 simpleErrorResponse.o: loggable/responses/SimpleErrorResponse.cpp
 	$(CC) $(CFLAGS) -c loggable/responses/SimpleErrorResponse.cpp -o SimpleErrorResponse.o
+logger.o: Logger.cpp Logger.h
+	$(CC) $(CFLAGS) -c Logger.cpp -o logger.o
 
 
