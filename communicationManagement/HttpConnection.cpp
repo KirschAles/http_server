@@ -30,7 +30,6 @@ bool HttpConnection::isCSLR() {
     }
     // the first char of CSLR is either \r or \n,
     // if it is not \r it must \n
-
     if ('\n' == buffer.front()) {
         buffer.pop_front();
         return true;
@@ -38,7 +37,6 @@ bool HttpConnection::isCSLR() {
     if(!assertSize(2)) {
         return false;
     }
-
     if ('\r' == buffer.front()) {
         char tmp = buffer.front();
         buffer.pop_front();
@@ -55,7 +53,9 @@ char HttpConnection::getByte() {
         throw std::runtime_error("Ran out of bytes: getByte()");
     }
     char byte = buffer.front();
+    //std::cout << byte;
     buffer.pop_front();
+
     return byte;
 }
 std::string HttpConnection::getBytes(int length) {
@@ -70,5 +70,6 @@ std::string HttpConnection::getLine() {
     while (!isCSLR()) {
         line += getByte();
     }
+
     return std::move(line);
 }
