@@ -15,20 +15,17 @@
 class Communication {
 private:
     HttpConnection &connection;
-    Request request;
     const Configuration &configuration;
     std::string httpVersion;
 
-    Response *createResponse();
+    Response *createResponse(Request *request);
     Response *createErrorResponse(HttpException &e);
 public:
     Communication(HttpConnection &connection, const Configuration &configuration)
             : connection(connection), configuration(configuration), httpVersion(http::HTTP09) {}
-    void recieveRequest();
-    void respond();
+    Request *recieveRequest();
     bool communicate();
 
-    void printRequest();
 };
 
 

@@ -1,7 +1,8 @@
 #include "Communication.h"
 
-void Communication::recieveRequest() {
+Request *Communication::recieveRequest() {
     std::string requestName;
+    Request *request = nullptr;
     try {
         requestName = connection.getBytes(4);
     }
@@ -9,11 +10,12 @@ void Communication::recieveRequest() {
         throw new BadRequest("Request is too small.");
     }
     if (requestName == "GET ") {
-        request = std::move(GETRequest(connection, httpVersion));
+        request = new GETRequest(connection, httpVersion);
     }
     else {
         throw new BadRequest("Unknown Request type.");
     }
+    return request;
 }
 Response *Communication::createErrorResponse(HttpException &e) {
     Response *response = nullptr;
@@ -26,10 +28,10 @@ Response *Communication::createErrorResponse(HttpException &e) {
     }
     return response;
 }
-Response *Communication::createResponse() {
+Response *Communication::createResponse(Request *request) {
     Response *response = nullptr;
-    ContentGenerator generator(request.getFileName(), configuration);
-    if (request.getVersion() == http::HTTP09) {
+    ContentGenerator generator(request->getFileName(), configuration);
+    if (request->getVersion() == http::HTTP09) {
         response = new SimpleResponse(connection, generator);
     }
     else {
@@ -38,35 +40,26 @@ Response *Communication::createResponse() {
     return response;
 
 }
-void Communication::respond() {
-    Response *response = nullptr;
-    request.getFileName();
-    response = createResponse();
-    response->send();
 
-    if (response) {
-        delete response;
-    }
-}
 bool Communication::communicate() {
     Response *response = nullptr;
+    Request *request = nullptr;
     try {
-        recieveRequest();
-        response = createResponse();
+        request = recieveRequest();
+        response = createResponse(request);
     }
     catch (HttpException *e) {
         response = createErrorResponse(*e);
     }
     catch (std::runtime_error e) {
-        std::cout << e.what();
         return false;
     }
     response->send();
     if (response) {
         delete response;
     }
+    if (request) {
+        delete request;
+    }
     return true;
-}
-void Communication::printRequest() {
-    request.print();
 }
