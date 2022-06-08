@@ -39,7 +39,7 @@ Connection Server::accept() {
     if (newSock == -1) {
         throw std::runtime_error("Connection couldn't be accepted.");
     }
-    return Connection(newSock, connectingAddr, addrSize);
+    return Connection(newSock, connectingAddr, addrSize, configuration);
 }
 Server::~Server(){
     freeaddrinfo(addressInfo);

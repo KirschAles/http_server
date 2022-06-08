@@ -10,15 +10,18 @@
 #include <cstring>
 #include <unistd.h>
 #include "../configuration.h"
-
+#include <arpa/inet.h>
+#include "../constants/mixed.h"
 constexpr size_t BUFFER = 1000;
 // Class represents an established connection
 class Connection {
 private:
     int sockfd;
     sockaddr_storage connectedAddr;
+    const Configuration &configuration;
+
 public:
-    Connection(int sockfd, sockaddr_storage &addr, size_t addrSize);
+    Connection(int sockfd, sockaddr_storage &addr, size_t addrSize, const Configuration &configuration);
     Connection(const Connection &connection);
     Connection &operator=(const Connection &connection);
 

@@ -1,10 +1,10 @@
 #include "Connection.h"
-Connection::Connection(int sockfd, sockaddr_storage &addr, size_t addrSize)
-        :sockfd(sockfd) {
+Connection::Connection(int sockfd, sockaddr_storage &addr, size_t addrSize, const Configuration &configuration)
+        :sockfd(sockfd), configuration(configuration) {
     memcpy(&connectedAddr, &addr, addrSize);
 }
 Connection::Connection(const Connection &connection)
-        :sockfd(connection.sockfd) {
+        :sockfd(connection.sockfd), configuration(connection.configuration) {
     memcpy(&connectedAddr, &connection.connectedAddr, sizeof connectedAddr);
 }
 Connection &Connection::operator=(const Connection &connection) {
