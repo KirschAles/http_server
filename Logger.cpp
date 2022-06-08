@@ -30,7 +30,7 @@ bool Logger::isLogFormatValid() const {
             }
         }
     }
-
+    return true;
 
 
 }
