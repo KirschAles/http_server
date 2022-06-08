@@ -3,6 +3,7 @@
 #include <fstream>
 #include "configuration.h"
 #include <ctime>
+#include "constants/mixed.h"
 
 class Logger {
 private:
@@ -13,7 +14,7 @@ private:
     bool isLogFormatValid() const;
 public:
     Logger(const Configuration &configuration);
-    void log(const std::string &message);
+    void log(const std::string &message, std::string ipAddress, std::string domain);
 
 };
 
