@@ -39,10 +39,6 @@ Connection Server::accept() {
     if (newSock == -1) {
         throw std::runtime_error("Connection couldn't be accepted.");
     }
-    int status = fcntl(newSock, F_SETFL, fcntl(newSock, F_GETFL, 0) | O_NONBLOCK);
-    if (-1 == status) {
-        throw std::runtime_error("Socket couldn't be made nonblocking.");
-    }
     return Connection(newSock, connectingAddr, addrSize);
 }
 Server::~Server(){

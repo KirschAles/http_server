@@ -45,21 +45,38 @@ std::string Connection::recieve(size_t maximumSize) const {
     size_t bytesWanted = maximumSize?maximumSize:BUFFER-1;
     int bytesRecieved = 0;
     std::string message{};
-    do {
-        int wantedLength = (bytesWanted>BUFFER-1) ? BUFFER-1 : bytesWanted;
 
+    fd_set setOfSockets;
+    FD_ZERO(&setOfSockets); // clear the structure
+    FD_SET(sockfd, &setOfSockets); // add our socket to the structure
+
+    struct timeval timeout;
+    timeout.tv_sec = 2;
+    timeout.tv_usec = 0;
+    do {
+
+        int canWeRecievie = select(sockfd+1, &setOfSockets, NULL, NULL, &timeout);
+        if (!(canWeRecievie > 0) ) {
+            // nothing to read
+            // connection manager will deal with the fact that the input may be empty
+            break;
+        }
+
+        int wantedLength = (bytesWanted>BUFFER-1) ? BUFFER-1 : bytesWanted;
         bytesRecieved = recv(sockfd, (void *)buffer, wantedLength, 0);
+        if (bytesRecieved == -1) {
+            delete[] buffer;
+            throw std::runtime_error("Message couldn't be accepted");
+        }
         // loop is used instead of normal addition,
         // so an user can send \0 in data
         // which if he sends binary data is a possibility
-        // in the event of error, bytes recieved is -1 and so no loop show take place
         for (int i = 0; i < bytesRecieved; i++) {
             message += buffer[i];
         }
         // dont decrement bytesWanted, if the max size is set to unlimited (0)
-        // this is ok, because bytesWanted won't be ever used, if the bytesRecieved is -1
         bytesWanted -= maximumSize?bytesRecieved:0;
-    } while(bytesWanted != 0 && -1 != bytesRecieved);
+    } while(bytesWanted != 0 && bytesRecieved == BUFFER-1);
     // run the loop until all wanted bytes are sent or the client stops sending
     delete[] buffer;
     return std::move(message);
