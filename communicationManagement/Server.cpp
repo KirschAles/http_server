@@ -20,13 +20,13 @@ Server::Server(Configuration configuration)
 // binds socket to a port (and address)
 // RETURN VALUE: true on success, false on failure
 bool Server::bind() {
-    return 0==::bind(sockfd, addressInfo->ai_addr, addressInfo->ai_addrlen);
+    return -1 != ::bind(sockfd, addressInfo->ai_addr, addressInfo->ai_addrlen);
 }
 
 // listens for incoming connections
 // RETURN VALUE: true on succes, false on failure
 bool Server::listen() {
-    return ::listen(sockfd, maxBacklog);
+    return -1 != ::listen(sockfd, maxBacklog);
 }
 
 // Accepts incoming connection

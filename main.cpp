@@ -26,7 +26,7 @@ int main(int argc, char *argv[]) {
 
     Server server(configuration);
 
-    if (-1 ==  server.bind() || -1 == server.listen()) {
+    if (!server.bind() || !server.listen()) {
         std::cout << "Server couldn't be connected." << std::endl;
         return -1;
     }
