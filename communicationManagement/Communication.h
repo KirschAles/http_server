@@ -23,7 +23,7 @@ private:
     Response *createErrorResponse(HttpException &e);
 public:
     Communication(HttpConnection &connection, const Configuration &configuration)
-            : connection(connection), configuration(configuration) {}
+            : connection(connection), configuration(configuration), httpVersion(http::HTTP09) {}
     void recieveRequest();
     void respond();
     void communicate();
