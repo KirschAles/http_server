@@ -42,7 +42,7 @@ Logger::Logger(const Configuration &configuration)
         throw std::runtime_error("File couldn't be opened.");
     }
     if (!isLogFormatValid()) {
-        throw std::runtime_error("Format is invalid.")
+        throw std::runtime_error("Format is invalid.");
     }
 }
 void Logger::log(const std::string &message) {
