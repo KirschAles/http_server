@@ -17,7 +17,6 @@ bool Logger::isLogFormatValid() const {
      * %t = time
      * %m = message
      * %I = IP address
-     * %p = port
      * %d = domain
      */
     if (format.length() == 0) {return true;}
