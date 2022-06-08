@@ -30,6 +30,8 @@ public:
     void stopRecording() {isRecording = false;}
     const std::string &getRecords() {return recording;}
     void clearRecords() {recording = std::string();}
+    std::string getIpAddress() const {return std::move(connection.getIpAddress());}
+    std::string getDomain() const {return std::move(connection.getDomain());}
 
 };
 
