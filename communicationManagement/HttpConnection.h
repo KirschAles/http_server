@@ -9,6 +9,8 @@ private:
     const Connection &connection;
     std::deque<char> buffer;
     size_t chunkLength = 500;
+    std::string recording;
+    bool isRecording = false;
 public:
     HttpConnection(const Connection &connection)
             : connection(connection) {}
@@ -24,6 +26,10 @@ public:
     bool send(const std::string &message) {
         return connection.send(message);
     }
+    void startRecording() {isRecording = true;}
+    void stopRecording() {isRecording = false;}
+    const std::string &getRecords() {return recording;}
+    void clearRecords() {recording = std::string();}
 
 };
 

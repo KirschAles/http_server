@@ -44,8 +44,11 @@ Response *Communication::createResponse(Request *request) {
 bool Communication::communicate() {
     Response *response = nullptr;
     Request *request = nullptr;
+
     try {
+        connection.startRecording();
         request = recieveRequest();
+        connection.stopRecording();
         response = createResponse(request);
     }
     catch (HttpException *e) {

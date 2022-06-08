@@ -55,7 +55,11 @@ char HttpConnection::getByte() {
     char byte = buffer.front();
     //std::cout << byte;
     buffer.pop_front();
-
+    // add to recording
+    // limited so it doesn't hug the memory if for example the message send is really big
+    if (isRecording && recording.length() < chunkLength) {
+        recording += byte;
+    }
     return byte;
 }
 std::string HttpConnection::getBytes(int length) {
