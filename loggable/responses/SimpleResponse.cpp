@@ -11,6 +11,12 @@ bool SimpleResponse::sendBody() {
 }
 
 
-void SimpleResponse::log(const fs::path &file) {
 
+std::string SimpleResponse::getPartialMessage() {
+    // returns this, because body is practically unsendable
+    // and there is nothing else to log
+    return codes::OK;
+}
+std::string SimpleResponse::getFullMessage() {
+    return std::move(getPartialMessage());
 }

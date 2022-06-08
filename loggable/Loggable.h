@@ -5,7 +5,9 @@ namespace fs = std::experimental::filesystem;
 
 class Loggable {
 public:
-    virtual void log(const fs::path &file) = 0;
+    virtual std::string getPartialMessage() = 0;
+    virtual std::string getFullMessage() = 0;
+
 };
 
 

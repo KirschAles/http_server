@@ -6,8 +6,8 @@ clean:
 	rm *.exe
 
 all: main.exe
-main.exe: main.o configuration.o contentGenerator.o communication.o connection.o httpConnection.o server.o fileParser.o fileParserScript.o fileParserDirectory.o fileParserRegular.o fileParserBinary.o fileParserText.o loggable.o request.o getRequest.o simpleResponse.o fullResponse.o fullErrorResponse.o
-	$(CC) $(CFLAGS) -o main.exe main.o configuration.o contentGenerator.o communication.o connection.o httpConnection.o server.o fileParser.o fileParserScript.o fileParserDirectory.o fileParserRegular.o fileParserBinary.o fileParserText.o loggable.o request.o getRequest.o simpleResponse.o fullResponse.o fullErrorResponse.o -lstdc++fs
+main.exe: main.o configuration.o contentGenerator.o communication.o connection.o httpConnection.o server.o fileParser.o fileParserScript.o fileParserDirectory.o fileParserRegular.o fileParserBinary.o fileParserText.o loggable.o request.o getRequest.o simpleResponse.o fullResponse.o fullErrorResponse.o simpleErrorResponse.o
+	$(CC) $(CFLAGS) -o main.exe main.o configuration.o contentGenerator.o communication.o connection.o httpConnection.o server.o fileParser.o fileParserScript.o fileParserDirectory.o fileParserRegular.o fileParserBinary.o fileParserText.o loggable.o request.o getRequest.o simpleResponse.o fullResponse.o fullErrorResponse.o simpleErrorResponse.o -lstdc++fs
 configuration.o: configuration.cpp
 	$(CC) $(CFLAGS) -c configuration.cpp -o configuration.o
 main.o: main.cpp
@@ -48,5 +48,7 @@ fullResponse.o: loggable/responses/FullResponse.cpp
 	$(CC) $(CFLAGS) -c loggable/responses/FullResponse.cpp -o fullResponse.o
 fullErrorResponse.o: loggable/responses/FullErrorResponse.cpp
 	$(CC) $(CFLAGS) -c loggable/responses/FullErrorResponse.cpp -o fullErrorResponse.o
+simpleErrorResponse.o: loggable/responses/SimpleErrorResponse.cpp
+	$(CC) $(CFLAGS) -c loggable/responses/SimpleErrorResponse.cpp -o SimpleErrorResponse.o
 
 

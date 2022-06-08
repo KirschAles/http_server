@@ -6,6 +6,8 @@ class FullErrorResponse: public SimpleErrorResponse {
 protected:
     const std::string &version;
     virtual bool sendStatusLine();
+    std::string buildStatusLine();
+
 public:
     FullErrorResponse(HttpConnection &connection, const HttpException &exception, const std::string &version)
             : SimpleErrorResponse(connection, exception), version(version) {}
@@ -13,7 +15,8 @@ public:
     bool send() override {
         return sendStatusLine();
     }
-
+    std::string getFullMessage() override;
+    std::string getPartialMessage() override;
 };
 
 

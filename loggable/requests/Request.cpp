@@ -81,9 +81,7 @@ Request &Request::operator=(const Request &request)
     headers = request.headers;
     return *this;
 }
-void Request::log(const fs::path &logFile) {
 
-}
 Request &Request::operator=(Request &&request)
 {
     fileName = std::move(request.fileName);
@@ -91,9 +89,19 @@ Request &Request::operator=(Request &&request)
     headers = std::move(request.headers);
     return *this;
 }
-void Request::print() {
-    std::cout << fileName << std::endl << httpVersion << std::endl;
+std::string Request::buildStatusLine() {
+    return std::move(fileName + " " + httpVersion);
+}
+std::string Request::buildHeaders() {
+    std::string headerInfo;
     for (auto i: headers) {
-        std::cout << i.first << ": " << i.second << std::endl;
+        headerInfo += i.first + ": " + i.second + http::CRLF;
     }
+    return std::move(headerInfo);
+}
+std::string Request::buildFullRequest() {
+    return std::move(buildStatusLine() + http::CRLF + buildHeaders());
+}
+void Request::print() {
+    std::cout << buildFullRequest();
 }

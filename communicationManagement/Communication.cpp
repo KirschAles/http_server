@@ -43,7 +43,6 @@ void Communication::respond() {
     request.getFileName();
     response = createResponse();
     response->send();
-    response->log(configuration.getLog());
 
     if (response) {
         delete response;
@@ -63,7 +62,6 @@ bool Communication::communicate() {
         return false;
     }
     response->send();
-    response->log(configuration.getLog());
     if (response) {
         delete response;
     }

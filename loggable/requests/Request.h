@@ -27,6 +27,10 @@ protected:
     void setHeader(std::string &line);
     bool setHeaders(HttpConnection &connection);
     std::string getLineSafely(HttpConnection &connection);
+
+    std::string buildStatusLine();
+    std::string buildHeaders();
+    virtual std::string buildFullRequest();
 public:
     Request() {}
     // On ERROR throws std::runtime_error
@@ -38,7 +42,6 @@ public:
       fileName(std::move(request.fileName)),
       headers(std::move(request.headers)) {}
     Request &operator=(const Request &request);
-    void log(const fs::path &logFile) override ;
     Request &operator=(Request &&request);
     const std::string &getFileName() {
         return fileName;
@@ -49,6 +52,8 @@ public:
     const std::string &getVersion() {
         return httpVersion;
     }
+    std::string getFullMessage() override {return std::move(buildFullRequest());}
+    std::string getPartialMessage() override {return std::move(buildStatusLine());}
     void print();
 
 };

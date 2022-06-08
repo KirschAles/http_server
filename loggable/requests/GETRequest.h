@@ -8,6 +8,8 @@ public:
     GETRequest(HttpConnection &connection, std::string &version)
             : Request(connection, version) {
     }
+    std::string getFullMessage() override {return std::move(std::string("GET ") + Request::getFullMessage());}
+    std::string getPartialMessage() override {return std::move(std::string("GET ") + Request::getFullMessage());}
 };
 
 

@@ -15,10 +15,15 @@ protected:
 
     bool sendStatusLine();
     bool sendHeaders();
-public:
+    std::string buildStatusLine() const;
+    std::string buildHeaders() const;
+
+        public:
     FullResponse(HttpConnection &connection, ContentGenerator &contentGenerator, const Configuration &configuration)
             : SimpleResponse(connection, contentGenerator), configuration(configuration) {}
     bool send() override;
+    std::string getPartialMessage() override;
+    std::string getFullMessage() override;
 };
 
 

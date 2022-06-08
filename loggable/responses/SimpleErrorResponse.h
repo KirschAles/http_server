@@ -13,12 +13,15 @@ public:
     bool send() override {
         return connection.send(exception.what());
     }
-    void log(const fs::path &path) override {}
     ~SimpleErrorResponse() override {
         if (&exception) {
             delete &exception;
         }
     }
+
+    virtual std::string getFullMessage();
+    std::string getPartialMessage() override;
+
 };
 
 
