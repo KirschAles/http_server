@@ -10,11 +10,11 @@ private:
     char *ipAddress = NULL;
     fs::path rootDirectory = fs::canonical(fs::path("."));
     size_t chunkSize = 100000;
-    fs::path logFile = fs::path("./log.log");
+    std::string logFile = fs::path("./log.log");
     fs::path killFile = fs::path("./kill");
     std::vector<std::string> scriptExtensions = {".sh", ".py", ".exe", ".out"};
     std::vector<std::string> textExtensions = {".txt", ".cpp", ".h", ".html", ".xml", ".css", ".json"};
-
+    std::string logFormat = "";
 
     static bool isIn(const std::string &item, const std::vector<std::string> &items);
 public:
@@ -27,11 +27,11 @@ public:
     const char *getIP() const {return ipAddress;}
     const fs::path &getRootDirectory() const {return rootDirectory;}
     size_t getChunkSize() const {return chunkSize;}
-    const fs::path &getLog() const {return logFile;}
+    const fs::path &getLogFile() const {return logFile;}
     bool isScript(const std::string &extension) const {return isIn(extension, scriptExtensions);};
     bool isText(const std::string &extension) const {return isIn(extension, textExtensions);};
     const fs::path &getKillFile() const {return killFile;}
-
+    const std::string &getLogFormat() const {return logFormat;}
 };
 
 #endif //HTTP_SERVER_CONFIGURATION_H
