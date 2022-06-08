@@ -25,10 +25,13 @@ int main(int argc, char *argv[]) {
     else {
         configuration.load(DEFAULT_CONFIG);
     }*/
-    std::cout << "here";
+
     Server server(configuration);
-    server.bind();
-    server.listen();
+
+    if (-1 ==  server.bind() || -1 == server.listen()) {
+        std::cout << "Server couldn't be connected." << std::endl;
+        return -1;
+    }
     std::cout << "Listening" << std::endl;
     // TO DO: implemented a way to turn the server off
     bool keepRunning = true;
