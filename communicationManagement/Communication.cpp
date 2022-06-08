@@ -61,6 +61,12 @@ bool Communication::communicate(Logger &logger) {
         logger.log(response->getFullMessage(), connection.getIpAddress(), connection.getDomain());
     }
     catch (std::runtime_error e) {
+        if (response) {
+            delete response;
+        }
+        if (request) {
+            delete request;
+        }
         return false;
     }
 
