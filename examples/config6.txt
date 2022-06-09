@@ -1,0 +1,2 @@
+timeout-seconds: 200
+log-file: testing/log.logging
