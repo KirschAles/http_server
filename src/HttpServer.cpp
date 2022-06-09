@@ -36,15 +36,24 @@ int main(int argc, char *argv[]) {
     }
     std::cout << "Listening..." << std::endl;
     bool keepRunning = true;
-    Logger logger(configuration);
+    Logger *logger;
+    try {
+        logger = new Logger(configuration);
+    }
+    catch (const std::runtime_error &e) {
+        std::cout << e.what() << std::endl;
+        delete logger;
+        return -1;
+    }
     while (keepRunning) {
         Connection connection = server.accept();
         std::cout << "Accepted" << std::endl;
         HttpConnection conn(connection, configuration);
         Communication comm(conn, configuration);
-        keepRunning = comm.communicate(logger);
+        keepRunning = comm.communicate(*logger);
         std::cout << "Closed" << std::endl;
     }
+    delete logger;
     return 0;
 }
 
