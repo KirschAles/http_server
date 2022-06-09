@@ -69,7 +69,16 @@ void Configuration::setPort(const std::string &newValue) {
     if (isNegative(newValue)) {
         throw std::invalid_argument("Port cannot be negative.");
     }
-    int test = std::stoi(newValue);
+    int test;
+    try {
+       test = std::stoi(newValue);
+    }
+    catch (const std::out_of_range &e) {
+        throw std::out_of_range("Port cannot be more than 2 bytes large.");
+    }
+    catch (const std::invalid_argument &e) {
+        throw std::invalid_argument("Invalid Port Number.");
+    }
     uint16_t max = std::numeric_limits<uint16_t>::max();
     if (test > max) {
         throw std::invalid_argument("Port cannot be more than 2 bytes big.");
@@ -144,13 +153,29 @@ void Configuration::setTimeoutMicroSeconds(const std::string &newValue) {
     if (isNegative(newValue)) {
         throw std::runtime_error("Timeout cannot be negative.");
     }
-    timeoutMicroSeconds = std::stol(newValue);
+    try {
+        timeoutMicroSeconds = std::stol(newValue);
+    }
+    catch (const std::out_of_range &e) {
+        throw std::out_of_range("Too many Microseconds.");
+    }
+    catch (const std::invalid_argument &e) {
+        throw std::invalid_argument("Invalid Number of Microseconds.");
+    }
 }
 void Configuration::setTimeoutSeconds(const std::string &newValue) {
     if (isNegative(newValue)) {
         throw std::runtime_error("Timeout cannot be negative.");
     }
-    timeoutSeconds = std::stol(newValue);
+    try {
+        timeoutSeconds = std::stol(newValue);
+    }
+    catch (const std::out_of_range &e) {
+        throw std::out_of_range("Too many Seconds.");
+    }
+    catch (const std::invalid_argument &e) {
+        throw std::invalid_argument("Invalid Number of Seconds.");
+    }
 }
 
 
@@ -200,19 +225,23 @@ bool Configuration::load(const std::string &configFile) {
     try {
         get(configFile);
     }
-    catch (std::invalid_argument e) {
+    catch (const std::invalid_argument &e) {
         std::cout << e.what() << std::endl;
         return false;
     }
-    catch (std::out_of_range e) {
+    catch (const std::out_of_range &e) {
         std::cout << e.what() << std::endl;
         return false;
     }
-    catch (std::runtime_error e) {
+    catch (const fs::filesystem_error &e) {
+        std::cout << "Root directory doesn't exist." << std::endl;
+        return false;
+    }
+    catch (const std::runtime_error &e) {
         std::cout << e.what() << std::endl;
         return false;
     }
-    catch (std::exception e) {
+    catch (const std::exception &e) {
         std::cout << "Error occurred when loading configuration file." << std::endl;
         return false;
     }
