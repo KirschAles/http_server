@@ -2,6 +2,10 @@
 #define HTTP_SERVER_FILEPARSERDIRECTORY_H
 #include "FileParserScript.h"
 
+
+/**
+ * FileParser to manage directory, it is just FileParserScript with the use of ls
+ */
 class FileParserDirectory: public FileParserScript {
 private:
 public:

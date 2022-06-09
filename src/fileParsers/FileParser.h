@@ -7,6 +7,9 @@
 #include <experimental/filesystem>
 #include "../configuration.h"
 
+/**
+ * Base class for file parsers
+ */
 class FileParser {
 protected:
     size_t chunkSize;
@@ -14,9 +17,25 @@ protected:
 public:
     FileParser(size_t chunkSize)
             : chunkSize(chunkSize) {}
+
+    /**
+    * @return std::string, chunk sized part of the file
+    *
+    */
     virtual std::string getChunk() {return std::string();}
+    /**
+     * @return boolean, true if all bytes were already sent forward, false otherwise
+     * Checks if all the data from FileParser was sent
+     */
     virtual bool isEmpty() const {return true;}
+    /**
+     * @return size_t number of bytes in data
+     * Gets size of the file.
+     */
     virtual size_t getSize() const {return 0;}
+    /**
+     * virtual Destructor, here so the FileParser will inhert it
+     */
     virtual ~FileParser() {}
 };
 

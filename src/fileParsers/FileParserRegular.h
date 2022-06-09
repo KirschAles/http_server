@@ -2,6 +2,11 @@
 #define HTTP_SERVER_FILEPARSERREGULAR_H
 #include "FileParser.h"
 
+/**
+ * FileParserRegular
+ *
+ * Deals with normal files with data.
+ */
 class FileParserRegular: public FileParser {
 protected:
     std::ifstream file;

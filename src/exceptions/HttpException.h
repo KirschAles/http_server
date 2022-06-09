@@ -1,6 +1,10 @@
 #ifndef HTTP_SERVER_HTTPEXCEPTION_H
 #define HTTP_SERVER_HTTPEXCEPTION_H
 #include <stdexcept>
+
+/**
+ * Base class for Http exceptions
+ */
 class HttpException: public std::runtime_error {
 protected:
     const std::string code;

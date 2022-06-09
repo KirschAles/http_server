@@ -3,6 +3,10 @@
 #include "FileParser.h"
 #include "sys/stat.h"
 #include <cstdio>
+
+/**
+ * FileParser to manage the output of a script
+ */
 class FileParserScript: public FileParser {
 protected:
     // it will just output the contents of the directory,

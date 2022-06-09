@@ -12,6 +12,11 @@ FileParserRegular::FileParserRegular(const fs::path &filePath,
     }
     size = calculateSize();
 }
+/**
+ *
+ * @return string, data of the new chunk of data, the string will be empty if no data remains
+ * @error std::runtim_error, throws error if the reading from the file fails
+ */
 std::string FileParserRegular::getChunk() {
     int bytesWanted = chunkSize;
     char *chunk = new char[bytesWanted];
