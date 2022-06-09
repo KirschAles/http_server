@@ -30,10 +30,8 @@ std::string Configuration::getHeaderName(std::string &line) {
 }
 void Configuration::getHeader(std::string &line, std::map<std::string, std::string> &headers) {
     std::string name = getHeaderName(line);
-    std::cout << name << std::endl;
-    std::cout << line << std::endl;
+
     headers[name] += stripFrontWhiteSpace(stripBackWhiteSpace(line));
-    std::cout << headers.at(name) << std::endl;
 }
 std::string Configuration::getLine(std::ifstream &input, bool &canStillRead) {
     std::string line;
@@ -97,7 +95,6 @@ std::string Configuration::stripBackWhiteSpace(const std::string &value) {
             break;
         }
     }
-    std::cout << i << "   " << value.substr(0, i+1) << std::endl;
     return value.substr(0, i+1);
 }
 std::string Configuration::stripFrontWhiteSpace(const std::string &value) {
