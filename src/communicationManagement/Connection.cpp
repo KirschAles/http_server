@@ -56,7 +56,7 @@ std::string Connection::recieve() const {
  * @error std::runtime_exception if the connection fails
  */
 std::string Connection::recieve(size_t maximumSize) const {
-    size_t bufferSize = configuration.getChunkSize();
+    long bufferSize = configuration.getChunkSize();
     char *buffer = new char[bufferSize];
     size_t bytesWanted = maximumSize?maximumSize:bufferSize-1;
     int bytesRecieved = 0;

@@ -1,6 +1,6 @@
 #ifndef HTTP_SERVER_LOGGABLE_H
 #define HTTP_SERVER_LOGGABLE_H
-
+#include <string>
 
 class Loggable {
 public:
