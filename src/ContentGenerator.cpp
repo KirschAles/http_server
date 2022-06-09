@@ -116,6 +116,10 @@ namespace fs = std::experimental::filesystem;
     ContentGenerator::ContentGenerator(const std::string fileName, const Configuration &configuration)
     : configuration(configuration), fileName(fileName) {
         fs::path file = fs::path(configuration.getRootDirectory().string() + fileName);
+        fs::path killFile = removeDots(absolute(configuration.getKillFile()));
+        if (!isSubdirectory(killFile, configuration.getRootDirectory())) {
+            throw std::runtime_error("Shutdown file is not a subdirectory of the root. \nTurning down.");
+        }
         if (isEqual(file, absolute(configuration.getKillFile()))) {
             throw std::runtime_error("Turning off.");
         }

@@ -44,7 +44,6 @@ int main(int argc, char *argv[]) {
         Communication comm(conn, configuration);
         keepRunning = comm.communicate(logger);
     }
-    std::cout << "Turning off" << std::endl;
     return 0;
 }
 

@@ -89,6 +89,7 @@ bool Communication::communicate(Logger &logger) {
         if (request) {
             delete request;
         }
+        std::cout << e.what() << std::endl;
         return false;
     }
 
