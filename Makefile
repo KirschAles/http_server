@@ -12,3 +12,5 @@ compile:
 	cd src && make clean
 doc: Doxyfile
 	doxygen Doxyfile
+rmdoc:
+	rm -r docs
