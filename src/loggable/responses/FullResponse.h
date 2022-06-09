@@ -4,10 +4,11 @@
 #include "../../constants/http.h"
 #include "../../constants/codes.h"
 
-// response to a http/1.0 request or later, will always use http/1.0 standard
+/**
+ * Response to HTTP/1.0 request or later, will always use HTTP/1.0 standard
+ */
 class FullResponse: public SimpleResponse {
 protected:
-    // the same stuff is in Request class, should rework it later into a Base class
     std::string httpVersion = http::HTTP10;
     std::map<std::string, std::string> headers;
 

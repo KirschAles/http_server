@@ -18,6 +18,11 @@ std::string FullResponse::buildHeaders() const {
 bool FullResponse::sendHeaders() {
     return connection.send(buildHeaders() + http::CRLF);
 }
+/**
+ *
+ * @return boolean true on success, false on failure
+ * Sends the message trough the connection
+ */
 bool FullResponse::send() {
     return sendStatusLine() && sendHeaders() && sendBody();
 }

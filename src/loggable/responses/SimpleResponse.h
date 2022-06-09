@@ -5,7 +5,9 @@
 #include "../../ContentGenerator.h"
 #include "../../communicationManagement/HttpConnection.h"
 
-// response to a http/0.9 request
+/**
+ * A response to a HTTP/0.9 request
+ */
 class SimpleResponse: public Response {
 protected:
     ContentGenerator contentGenerator;

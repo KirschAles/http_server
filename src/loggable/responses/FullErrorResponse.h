@@ -2,6 +2,12 @@
 #define HTTP_SERVER_FULLERRORRESPONSE_H
 #include "SimpleErrorResponse.h"
 #include "../../constants/http.h"
+
+/**
+ * Error Response to HTTP/1.0 or higher request
+ *
+ * Sends only a status line, no headers are created
+ */
 class FullErrorResponse: public SimpleErrorResponse {
 protected:
     const std::string &version;

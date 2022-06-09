@@ -7,6 +7,12 @@ bool FullErrorResponse::sendStatusLine() {
 std::string FullErrorResponse::buildStatusLine() {
     return std::move(version + " " + exception.getCode() + " " + exception.what());
 }
+/**
+ *
+ * @return string, The same output as partialMessage
+ * Full message and partial message  are the same, because no headers are or body are send
+ * in full error messages
+ */
 std::string FullErrorResponse::getFullMessage() {
     return std::move(getPartialMessage());
 }

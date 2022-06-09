@@ -2,6 +2,10 @@
 #define HTTP_SERVER_RESPONSE_H
 #include "../Loggable.h"
 #include "../../communicationManagement/HttpConnection.h"
+
+/**
+ * Abstract class serving as a base for all responses
+ */
 class Response: public Loggable {
 protected:
     HttpConnection &connection;
