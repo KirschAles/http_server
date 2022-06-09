@@ -13,7 +13,7 @@ class HttpConnection {
 private:
     const Connection &connection;
     std::deque<char> buffer;
-    size_t chunkLength ;
+    size_t chunkLength;
     std::string recording;
     bool isRecording = false;
 public:

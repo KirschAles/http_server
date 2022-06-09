@@ -1,6 +1,6 @@
 #ifndef HTTP_SERVER_CONFIGURATIONHEADERS_H
 #define HTTP_SERVER_CONFIGURATIONHEADERS_H
-
+#include <string>
 namespace configHeaders {
     const std::string port = "port";
     const std::string ipAddress = "IP-address";
