@@ -7,6 +7,14 @@
 #include "../../constants/http.h"
 #include "../../exceptions/BadRequest.h"
 
+
+/**
+ * A base for Requests
+ *
+ * Can be used for easy building of other requests other than GET
+ * the classes function is save all informations from request common to all types Requst
+ * First line and possibly headers
+ */
 class Request: public Loggable {
 protected:
     std::string httpVersion;
