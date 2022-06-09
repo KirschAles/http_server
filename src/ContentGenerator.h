@@ -30,6 +30,7 @@ private:
     const Configuration &configuration;
     FileParser *fileParser = nullptr;
     std::map<std::string, std::string> headers;
+    fs::path fileName;
 
     // directory must be directory, should be checked by the configuration
     static bool isSubdirectory(const fs::path &file, const fs::path &directory);
@@ -44,7 +45,8 @@ public:
     ContentGenerator(ContentGenerator &&contentGenerator)
     : configuration(contentGenerator.configuration),
       fileParser(contentGenerator.fileParser),
-      headers(std::move(contentGenerator.headers)) {
+      headers(std::move(contentGenerator.headers)),
+      fileName(contentGenerator.fileName) {
         // set to NULL so the parser isn't destroyed when original deconstructs
         contentGenerator.fileParser = nullptr;
     }

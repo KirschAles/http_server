@@ -37,6 +37,7 @@ public:
      * virtual Destructor, here so the FileParser will inhert it
      */
     virtual ~FileParser() {}
+    virtual std::string getType() const {return "";}
 };
 
 

@@ -11,6 +11,8 @@ class FileParserText: public FileParserRegular {
 public:
     FileParserText(const fs::path &filePath, size_t chunkSize)
             : FileParserRegular(filePath, chunkSize) {}
+
+    std::string getType() const override{return mixed::text;}
 };
 
 

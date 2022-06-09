@@ -111,7 +111,7 @@ namespace fs = std::experimental::filesystem;
      * creates the fileParser if possible, and builds up the entity headers for use by other programms
      */
     ContentGenerator::ContentGenerator(const std::string fileName, const Configuration &configuration)
-    : configuration(configuration) {
+    : configuration(configuration), fileName(fileName) {
         fs::path file = fs::path(configuration.getRootDirectory().string() + fileName);
         if (isEqual(file, absolute(configuration.getKillFile()))) {
             throw std::runtime_error("Turning off.");
@@ -141,6 +141,7 @@ namespace fs = std::experimental::filesystem;
         catch (std::runtime_error e) {
             // contentLength couldn't be found, no content-length header was created
         }
+        headers["Content-Type"] = fileParser->getType() + std::string(fileName.extension()).substr(1);
     }
     const std::map<std::string, std::string> &ContentGenerator::getHeaders() const{
         return headers;

@@ -7,6 +7,7 @@ namespace mixed {
     const std::string unknown = "Unknown.";
     const char divider = ',';
     const std::string default_config = "./config.txt";
-
+    const std::string text = "text/";
+    const std::string image = "image/";
 }
 #endif //HTTP_SERVER_MIXED_H
