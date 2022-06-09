@@ -1,16 +1,16 @@
 all:
 	cd src && make all
-	mv src/HttpServer.exe HttpServer.exe;
+	mv src/kirscale kirscale;
 clean:
-	rm *.exe;
-	cd src && make clean;
+	-rm kirscale
+	-make rmdoc
+	-cd src && make clean
 run:
-	./HttpServer.exe
+	./kirscale
 compile:
-	cd src && make all
-	mv src/HttpServer.exe HttpServer.exe
+	make all
 	cd src && make clean
-doc: Doxyfile
+doc:
 	doxygen Doxyfile
 rmdoc:
-	rm -r docs
+	rm -r doc
