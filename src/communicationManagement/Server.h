@@ -4,7 +4,11 @@
 #include "Connection.h"
 #include <fcntl.h>
 
-
+/**
+ * Server
+ *
+ * Sets up a socket, to listen on inputted port and creates Connections if any are accepted
+ */
 class Server {
     int sockfd;
     Configuration configuration;
@@ -15,17 +19,8 @@ class Server {
     static void setAddrInfo(struct addrinfo& info);
 public:
     Server(Configuration configuration=Configuration());
-    // binds socket to a port (and address)
-    // RETURN VALUE: true on success, false on failure
     bool bind();
-
-    // listens for incoming connections
-    // RETURN VALUE: true on succes, false on failure
     bool listen();
-
-    // Accepts incoming connection
-    // RETURN VALUE: new connection
-    // ERRORS: std::runtime_error if the connection couldn't be accepted
     Connection accept();
     ~Server();
 };

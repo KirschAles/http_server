@@ -41,8 +41,9 @@ std::string Connection::recieve() const {
 // EFFECT: recieves messege from the connection
 // ERRORS: throws runtime_error if the recieving of message fails
 std::string Connection::recieve(size_t maximumSize) const {
-    char *buffer = new char[BUFFER];
-    size_t bytesWanted = maximumSize?maximumSize:BUFFER-1;
+    size_t bufferSize = configuration.getChunkSize();
+    char *buffer = new char[bufferSize];
+    size_t bytesWanted = maximumSize?maximumSize:bufferSize-1;
     int bytesRecieved = 0;
     std::string message{};
 
@@ -62,7 +63,7 @@ std::string Connection::recieve(size_t maximumSize) const {
             break;
         }
 
-        int wantedLength = (bytesWanted>BUFFER-1) ? BUFFER-1 : bytesWanted;
+        int wantedLength = (bytesWanted>bufferSize-1) ? bufferSize-1 : bytesWanted;
         bytesRecieved = recv(sockfd, (void *)buffer, wantedLength, 0);
         if (bytesRecieved == -1) {
             delete[] buffer;
@@ -76,7 +77,7 @@ std::string Connection::recieve(size_t maximumSize) const {
         }
         // dont decrement bytesWanted, if the max size is set to unlimited (0)
         bytesWanted -= maximumSize?bytesRecieved:0;
-    } while(bytesWanted != 0 && bytesRecieved == BUFFER-1);
+    } while(bytesWanted != 0 && bytesRecieved == bufferSize-1);
     // run the loop until all wanted bytes are sent or the client stops sending
     delete[] buffer;
     return std::move(message);

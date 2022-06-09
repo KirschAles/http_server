@@ -17,21 +17,33 @@ Server::Server(Configuration configuration)
     sockfd = socket(result->ai_family, result->ai_socktype, result->ai_protocol);
     addressInfo = result;
 }
-// binds socket to a port (and address)
-// RETURN VALUE: true on success, false on failure
+
+/**
+ *
+ * @return boolean true on success, false on failure
+ * binds socket to a port (and address)
+ */
 bool Server::bind() {
     return -1 != ::bind(sockfd, addressInfo->ai_addr, addressInfo->ai_addrlen);
 }
 
-// listens for incoming connections
-// RETURN VALUE: true on succes, false on failure
+
+/**
+ *
+ * @return boolean true on success, false on failure
+ * starts listening for incoming connection attempts
+ */
 bool Server::listen() {
     return -1 != ::listen(sockfd, maxBacklog);
 }
 
-// Accepts incoming connection
-// RETURN VALUE: new connection
-// ERRORS: std::runtime_error if the connection couldn't be accepted
+
+/**
+ *
+ * @return a accepted Connection
+ * @error std::runtim_error if the connection couldn't be accepted
+ * Accepts incoming connection, throws error if that is impossible
+ */
 Connection Server::accept() {
     struct sockaddr_storage connectingAddr;
     socklen_t addrSize = sizeof(connectingAddr);

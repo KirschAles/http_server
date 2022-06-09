@@ -3,7 +3,12 @@
 #include "Connection.h"
 #include <deque>
 
-// class for http Connection
+/**
+ * HttpConnection
+ *
+ * Class made as container for a connection, so it is easier to deal with
+ * has several function to better read HttpRequests
+ */
 class HttpConnection {
 private:
     const Connection &connection;
