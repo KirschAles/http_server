@@ -1,7 +1,6 @@
 # ignore object and execution files
 *.o
-*.exe
-*.out
+HttpServer.exe
 
 # ignore tests
 *test*
