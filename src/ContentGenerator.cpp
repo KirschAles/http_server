@@ -144,7 +144,10 @@ namespace fs = std::experimental::filesystem;
         catch (std::runtime_error e) {
             // contentLength couldn't be found, no content-length header was created
         }
-        if (!fileName.extension().string().empty()) {
+        if (fileName.extension().string() == ".js") {
+            headers["Content-Type"] = fileParser->getType() + "javascript";
+        }
+        else if (!fileName.extension().string().empty()) {
             headers["Content-Type"] = fileParser->getType() + std::string(fileName.extension()).substr(1);
         }
     }
