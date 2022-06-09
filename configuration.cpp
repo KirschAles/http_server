@@ -180,6 +180,7 @@ void Configuration::get(const std::string &configFile) {
     std::map<std::string, std::string> headers;
     getHeaders(input, headers);
     setLoadedConfigurations(headers);
+    input.close();
 }
 bool Configuration::load(const std::string &configFile) {
     try {
