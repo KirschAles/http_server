@@ -13,10 +13,13 @@ Connection &Connection::operator=(const Connection &connection) {
     return *this;
 }
 
-// PARAMETERS: STRING message to be send
-// RETURNS: true if the whole message was sent, false otherwise
-// EFFECTS: sends the message to the other side of a connection
 
+/**
+ *
+ * @param message string message to be send
+ * @return boolean true if the whole message was sent, false otherwise
+ * Sends the message to the other side of connection
+ */
 bool Connection::send(const std::string &message) const noexcept{
     size_t bytesSent = 0;
     size_t current_index = 0;
@@ -33,6 +36,12 @@ bool Connection::send(const std::string &message) const noexcept{
 // RETURNS: message recieved
 // EFFECT: recieves messege from the connection
 // ERRORS: throws runtime_error if the recieving of message fails
+/**
+ *
+ * @return string message from the connection
+ * @error std::runtime_exception if the connection fails
+ * Calls recieve with an unlimited number of bytes wanted
+ */
 std::string Connection::recieve() const {
     return recieve(0);
 }
@@ -40,6 +49,12 @@ std::string Connection::recieve() const {
 // RETURNS: message recieved
 // EFFECT: recieves messege from the connection
 // ERRORS: throws runtime_error if the recieving of message fails
+/**
+ *
+ * @param maximumSize maximum number of bytes to recieve
+ * @return string message recieve from the connection
+ * @error std::runtime_exception if the connection fails
+ */
 std::string Connection::recieve(size_t maximumSize) const {
     size_t bufferSize = configuration.getChunkSize();
     char *buffer = new char[bufferSize];
