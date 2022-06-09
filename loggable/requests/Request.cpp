@@ -50,7 +50,7 @@ std::string Request::getHeaderName(std::string &line) {
         throw new BadRequest("No value in header");
     }
     if (line[++pos] != ' ') {
-        throw BadRequest("Bad format of header, missing space after ':'");
+        throw new BadRequest("Bad format of header, missing space after ':'");
     }
     line = line.substr(++pos);
     return std::move(name);

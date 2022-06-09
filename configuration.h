@@ -5,6 +5,10 @@
 #include <fstream>
 #include <ctime>
 #include "constants/configurationHeaders.h"
+#include <map>
+#include <cstring>
+#include "constants/mixed.h"
+#include <limits>
 
 namespace fs = std::experimental::filesystem;
 class Configuration {
@@ -19,10 +23,33 @@ private:
     std::vector<std::string> scriptExtensions = {".sh", ".py", ".exe", ".out"};
     std::vector<std::string> textExtensions = {".txt", ".cpp", ".h", ".html", ".xml", ".css", ".json"};
     std::string logFormat = "log:\n \tdomain: %d \tIP address: %I\n\tmessage: %m\n\n";
-    __suseconds_t timoutMicroSeconds = 0;
-    __time_t timoutSeconds = 3;
+    __suseconds_t timeoutMicroSeconds = 0;
+    __time_t timeoutSeconds = 3;
 
     static bool isIn(const std::string &item, const std::vector<std::string> &items);
+    void get(const std::string &configurationFile);
+    static std::string getHeaderName(std::string &line);
+    static void getHeader(std::string &line, std::map<std::string, std::string> &headers);
+    static bool getHeaders(std::ifstream &input, std::map<std::string, std::string> &headers);
+    static std::string getLine(std::ifstream &input, bool &canStillRead);
+    static bool isOnlyWhiteSpace(const std::string &line);
+    void setLoadedConfigurations(const std::map<std::string, std::string> &headers);
+    static bool isNegative(const std::string &value);
+    static std::string stripBackWhiteSpace(const std::string &value);
+    static std::string stripFrontWhiteSpace(const std::string &value);
+
+
+    void setPort(const std::string &);
+    void setIP(const std::string &);
+    void setRootDirectory(const std::string &);
+    void setChunkSize(const std::string &);
+    void setLogFile(const std::string &);
+    void setScriptExtensions(const std::string &);
+    void setTextExtensions(const std::string &);
+    void setKillFile(const std::string &);
+    void setLogFormat(const std::string &);
+    void setTimeoutMicroSeconds(const std::string &);
+    void setTimeoutSeconds(const std::string &);
 public:
     Configuration() = default;
     bool load(const std::string &file);
@@ -38,8 +65,11 @@ public:
     bool isText(const std::string &extension) const {return isIn(extension, textExtensions);};
     const fs::path &getKillFile() const {return killFile;}
     const std::string &getLogFormat() const {return logFormat;}
-    __suseconds_t getTimeoutMicroSeconds() const {return timoutMicroSeconds;}
-    __time_t getTimeoutSeconds() const {return timoutSeconds;}
+    __suseconds_t getTimeoutMicroSeconds() const {return timeoutMicroSeconds;}
+    __time_t getTimeoutSeconds() const {return timeoutSeconds;}
+
+    ~Configuration();
+
 };
 
 #endif //HTTP_SERVER_CONFIGURATION_H

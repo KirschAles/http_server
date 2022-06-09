@@ -17,13 +17,17 @@ const char *DEFAULT_CONFIG = "./config.txt";
 
 int main(int argc, char *argv[]) {
     Configuration configuration;
-    /*if (argc >= 2) {
-        configuration.load(argv[1]);
+    int loadedSuccesfully = false;
+    if (argc >= 2) {
+        loadedSuccesfully = configuration.load(argv[1]);
     }
     else {
-        configuration.load(DEFAULT_CONFIG);
-    }*/
-
+        loadedSuccesfully = configuration.load(DEFAULT_CONFIG);
+    }
+    if (!loadedSuccesfully) {
+        std::cout << "Couldn't load configuration." << std::endl;
+        return false;
+    }
     Server server(configuration);
 
     if (!server.bind() || !server.listen()) {
