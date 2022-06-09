@@ -1,0 +1,19 @@
+Cílem semestrální práce je vytvořit http server, který je schopný následujících vlastností.
+Za prvé, z configuračního souboru je schopný načíst port, na kterém má naslouchat, IP adresu, adressu na níž lze vynout,
+kořenový adresář serveru, extenze programu které budou považovány jako text a těch, které budou považovány jako externí skript,
+formát logovánía a timeout serveru.
+Program bude mít defaultní konfigurační soubor, ten vše lze změnit pomocí přiložení parametru. Server je schopný
+zobrazení externího scriptu, html, či jiné textové stránky, výpysu obsahu adresáře a zobrazení obrázku.
+Server zamezí přístupu k souborům mimo koženový adresář serveru. Přenosy mezi serverem a clienty jsou zaznamenávány
+do nastavitelného logovacího souboru, samotná aktivita serveru mimo přenosy požadavků je zobrazována na konsoli.
+Server je vypnut přístupem na nastavitelnou adresu, při vypnutí není zpět klientovi poslaná žádná zpráva.
+Server samotný implementuje a řídí se standardem http/1.0.
+
+Polymorphismus je využit u FileParser, který zařizuje přístup k požadovaným souborům. FileParserScript spouští
+externí programy a následně posílá získaný obsah skrz pipu. FileParserDirectory spouští specifický script
+pro výpis souborů. FileParserRegular jednoduše otevírá a vypisuje souboru přes ifstream, dělí se dále
+na FileParserBinary a FileParserText, kdy binary otevírá soubory v binárním módu a text v módu textovém.
+
+Z FileParserImage ještě dědí FileParserImage, který hlavičku poslaného souboru jako image/.
+Dalším využitím polymorphismu je ve třídě response, které jsou nejdřívě rozděleny odesílání správných a chybových odpovědí,
+ale dále jsou také rozděleny na odesílání http/0.9 a http/1.0 odpovědí.
