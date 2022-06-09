@@ -4,12 +4,14 @@
 #include <experimental/filesystem>
 #include <fstream>
 #include <ctime>
+#include "constants/configurationHeaders.h"
 
 namespace fs = std::experimental::filesystem;
 class Configuration {
 private:
     std::string port = "8080";
-    char *ipAddress = NULL;
+    // needs to be char* so nullptr can be send
+    char *ipAddress = nullptr;
     fs::path rootDirectory = fs::canonical(fs::path("."));
     size_t chunkSize = 100000;
     fs::path logFile = fs::path("./log.log");
