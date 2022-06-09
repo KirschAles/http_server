@@ -3,6 +3,8 @@
 #include "FileParserBinary.h"
 class FileParserImage: public FileParserBinary {
 public:
+    FileParserImage(const fs::path &filePath, size_t chunkSize)
+            : FileParserBinary(filePath, chunkSize) {}
     std::string getType() const override {return mixed::image;}
 };
 

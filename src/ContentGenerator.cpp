@@ -38,6 +38,9 @@ namespace fs = std::experimental::filesystem;
         else if (configuration.isText(extension)) {
             return new FileParserText(file, configuration.getChunkSize());
         }
+        else if (configuration.isImage(extension)) {
+            return new FileParserImage(file, configuration.getChunkSize());
+        }
         else {
             // binary is the default mode for unknown types of files
             return new FileParserBinary(file, configuration.getChunkSize());

@@ -14,6 +14,7 @@
 #include "fileParsers/FileParserText.h"
 #include "exceptions/BadRequest.h"
 #include "exceptions/InternalServerError.h"
+#include "fileParsers/FileParserImage.h"
 
 
 namespace fs = std::experimental::filesystem;
