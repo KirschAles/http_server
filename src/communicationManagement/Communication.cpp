@@ -82,7 +82,7 @@ bool Communication::communicate(Logger &logger) {
         logger.log(connection.getRecords(), connection.getIpAddress(), connection.getDomain());
         logger.log(response->getFullMessage(), connection.getIpAddress(), connection.getDomain());
     }
-    catch (std::runtime_error e) {
+    catch (const std::runtime_error &e) {
         if (response) {
             delete response;
         }
