@@ -18,6 +18,13 @@
 
 namespace fs = std::experimental::filesystem;
 
+/**
+ * ContentGenerator
+ *
+ * It's main use is to create and manage FileParsers and
+ * resend used data from that forward.
+ *
+ */
 class ContentGenerator {
 private:
     const Configuration &configuration;
@@ -26,8 +33,7 @@ private:
 
     // directory must be directory, should be checked by the configuration
     static bool isSubdirectory(const fs::path &file, const fs::path &directory);
-    // TO DO: replace this with endings that should be loaded from configuration file
-    //        this is just a temporary solution
+
     FileParser *createFileParserOfRegular(const fs::path &file);
     FileParser *createFileParser(const fs::path &file);
     bool isEqual(const fs::path &file1, const fs::path &file2) const;

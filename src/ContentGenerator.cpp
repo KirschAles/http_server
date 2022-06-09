@@ -2,7 +2,13 @@
 
 namespace fs = std::experimental::filesystem;
 
-    // directory must be directory, should be checked by the configuration
+    /**
+     *
+     * @param file fs::path in canonical form
+     * @param directory fs::path should be at this point checked that this file exists and also in canonical form
+     * @return true if file is subdirectory of directory, false otherwise
+     */
+
     bool ContentGenerator::isSubdirectory(const fs::path &file, const fs::path &directory) {
         if (fs::status(directory).type() != fs::file_type::directory) {
             // this should be checked by config but better to be safe
@@ -17,7 +23,13 @@ namespace fs = std::experimental::filesystem;
         }
         return true;
     }
-
+    /**
+     *
+     * @param file
+     * @return FileParser of non-directory
+     * Creates a FileParser to care for the file
+     * Allocated memory will be freed by ContentGenerators destructor
+     */
     FileParser *ContentGenerator::createFileParserOfRegular(const fs::path &file) {
         std::string extension = file.extension().string();
         if (configuration.isScript(extension)) {
@@ -41,6 +53,14 @@ namespace fs = std::experimental::filesystem;
                 throw new BadRequest("Type of file not supported.");
         }
     }
+
+    /**
+     *
+     * @param file file::path which is to be stripped of .. and .
+     * @return FileParser
+     * @error BadRequest if there is /~/ in the path, is allowable because this type of stuff is not
+     *         expected or even wanted on http server
+     */
     fs::path ContentGenerator::removeDots(const fs::path &file) const {
         fs::path newPath;
         for (auto iterator =  file.begin(); iterator != file.end(); ++iterator) {
@@ -56,7 +76,18 @@ namespace fs = std::experimental::filesystem;
         }
         return newPath;
     }
+
+    /**
+     *
+     * @param file1 filesystem path
+     * @param file2 filesystem path
+     * @return true if they are equal, false otherwise
+     * this function was made, because sometimes it is needed to know
+     * if file paths are equal, even when the files don't exist, which makes
+     * filesystems functions unusable
+     */
     bool ContentGenerator::isEqual(const fs::path &file1, const fs::path &file2) const {
+        // makes both paths canonical
         fs::path file1Rel = removeDots(file1.relative_path());
         fs::path file2Rel = removeDots(file2.relative_path());
         auto iterator1 = file1Rel.begin();
@@ -69,6 +100,16 @@ namespace fs = std::experimental::filesystem;
         }
         return iterator1 == file1Rel.end() && iterator2 == file2Rel.end();
     }
+
+    /**
+     *
+     * @param fileName string name of the path
+     * @param configuration
+     * @error std::runtime_error if shutdown file was asked for, programm starts shutting down
+     * @error BadRequest on fail, if either the file doesn't exist or is out of allowed area
+     *
+     * creates the fileParser if possible, and builds up the entity headers for use by other programms
+     */
     ContentGenerator::ContentGenerator(const std::string fileName, const Configuration &configuration)
     : configuration(configuration) {
         fs::path file = fs::path(configuration.getRootDirectory().string() + fileName);
@@ -86,6 +127,11 @@ namespace fs = std::experimental::filesystem;
         fileParser = createFileParser(file);
         buildHeaders();
     }
+
+    /**
+     * builds headers to be used as entity header
+     * right now only content-length
+     */
     void ContentGenerator::buildHeaders() {
         try {
             size_t contentLength = 0;
