@@ -10,3 +10,5 @@ compile:
 	cd src && make all
 	mv src/HttpServer.exe HttpServer.exe
 	cd src && make clean
+doc: Doxyfile
+	doxygen Doxyfile
