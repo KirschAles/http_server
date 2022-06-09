@@ -1,9 +1,6 @@
 CC = g++
 CFLAGS = -Wall --pedantic -g -std=c++17
 
-clean:
-	rm *.o;
-	rm *.exe
 
 all: main.exe
 main.exe: main.o configuration.o contentGenerator.o communication.o connection.o httpConnection.o server.o fileParser.o fileParserScript.o fileParserDirectory.o fileParserRegular.o fileParserBinary.o fileParserText.o loggable.o request.o getRequest.o simpleResponse.o fullResponse.o fullErrorResponse.o simpleErrorResponse.o logger.o
@@ -50,5 +47,8 @@ simpleErrorResponse.o: loggable/responses/SimpleErrorResponse.cpp
 	$(CC) $(CFLAGS) -c loggable/responses/SimpleErrorResponse.cpp -o SimpleErrorResponse.o
 logger.o: Logger.cpp Logger.h
 	$(CC) $(CFLAGS) -c Logger.cpp -o logger.o
+
+clean:
+	rm *.o;
 
 
