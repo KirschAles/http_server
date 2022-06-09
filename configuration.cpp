@@ -189,11 +189,11 @@ bool Configuration::load(const std::string &configFile) {
         get(configFile);
     }
     catch (std::invalid_argument e) {
-        std::cout << "Invalid Configuration argument." << std::endl;
+        std::cout << e.what() << std::endl;
         return false;
     }
     catch (std::out_of_range e) {
-        std::cout << "Numbers were too big." << std::endl;
+        std::cout << e.what() << std::endl;
         return false;
     }
     catch (std::runtime_error e) {
