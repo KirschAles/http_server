@@ -1,5 +1,21 @@
 #include "Request.h"
 
+
+/**
+ *
+ * @param connection HttpConnection through which the client sends data
+ * @return string new Line
+ * @error BadRequest on std::runtime_exception
+ * Porpuse of this function is to contain the HttpConnections getLine, but
+ * with the exchange of std::runtime_error for BadRequest, so in the case of error
+ * Communication manager can deal with it
+ *
+ * runtime_exception means that the connection ran out of bytes without
+ * hitting CRLF which is not possible if the data is entered correctly,
+ *
+ * only use for dealing with headers and the first line,
+ * will through untrue errors if used on the RequestBody
+ */
 std::string Request::getLineSafely(HttpConnection &connection) {
     try {
         return std::move(connection.getLine());
@@ -21,13 +37,24 @@ std::string Request::setFileName(const std::string line) {
     return std::move(line.substr(++pos));
 }
 
+/**
+ *
+ * @param connection HttpConnection, data comes in through here
+ * @param version a reference to http version, here so the outside knows the version of request
+ *                  even if the contruction of the other parts of request fail
+ */
 void Request::setRequestLine(HttpConnection &connection, std::string &version) {
     std::string line = getLineSafely(connection);
     std::string remainingLine = setFileName(line);
     setHttpVersion(remainingLine, version);
 
 }
-// line must be at least one character long, otherwise undefined behaviour
+/**
+ *
+ * @param line string, must be at least a line long, otherwise the behavour will be undefined
+ * @return string returns a header name
+ * @error throws badRequest if the header is incorrect
+ */
 std::string Request::getHeaderName(std::string &line) {
     std::string name;
     char tmp;
@@ -37,6 +64,7 @@ std::string Request::getHeaderName(std::string &line) {
         if (!std::isprint(tmp)) {
             throw new BadRequest("Header name in request is made of non-printable characters.");
         }
+        // no whitespace should be between the start of header name and ':'
         else if (std::isspace(tmp)) {
             throw new BadRequest("Header name in request contains whitespace characters");
         }
@@ -46,9 +74,11 @@ std::string Request::getHeaderName(std::string &line) {
             throw new BadRequest("No ':' character in header");
         }
     }
+    // there is one space remaining in line at best
     if (pos >= line.length() - 2) {
         throw new BadRequest("No value in header");
     }
+    // after ':' must be spacebar
     if (line[++pos] != ' ') {
         throw new BadRequest("Bad format of header, missing space after ':'");
     }
@@ -69,6 +99,11 @@ bool Request::setHeaders(HttpConnection &connection) {
     }
     return true;
 }
+/**
+ *
+ * @param connection HttpConnection, data comes in from there
+ * @param version version, used so the communication manager can findout what type of error message can he send if request fails
+ */
 Request::Request(HttpConnection &connection, std::string &version) {
     setRequestLine(connection, version);
     setHeaders(connection);
