@@ -144,7 +144,9 @@ namespace fs = std::experimental::filesystem;
         catch (std::runtime_error e) {
             // contentLength couldn't be found, no content-length header was created
         }
-        headers["Content-Type"] = fileParser->getType() + std::string(fileName.extension()).substr(1);
+        if (!fileName.extension().string().empty()) {
+            headers["Content-Type"] = fileParser->getType() + std::string(fileName.extension()).substr(1);
+        }
     }
     const std::map<std::string, std::string> &ContentGenerator::getHeaders() const{
         return headers;
