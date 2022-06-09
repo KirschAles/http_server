@@ -2,13 +2,13 @@ CC = g++
 CFLAGS = -Wall --pedantic -g -std=c++17
 
 
-all: main.exe
-main.exe: main.o configuration.o contentGenerator.o communication.o connection.o httpConnection.o server.o fileParser.o fileParserScript.o fileParserDirectory.o fileParserRegular.o fileParserBinary.o fileParserText.o loggable.o request.o getRequest.o simpleResponse.o fullResponse.o fullErrorResponse.o simpleErrorResponse.o logger.o
-	$(CC) $(CFLAGS) -o main.exe main.o configuration.o contentGenerator.o communication.o connection.o httpConnection.o server.o fileParser.o fileParserScript.o fileParserDirectory.o fileParserRegular.o fileParserBinary.o fileParserText.o loggable.o request.o getRequest.o simpleResponse.o fullResponse.o fullErrorResponse.o simpleErrorResponse.o logger.o -lstdc++fs -fsanitize=address
+all: HttpServer.exe
+HttpServer.exe: HttpServer.o configuration.o contentGenerator.o communication.o connection.o httpConnection.o server.o fileParser.o fileParserScript.o fileParserDirectory.o fileParserRegular.o fileParserBinary.o fileParserText.o loggable.o request.o getRequest.o simpleResponse.o fullResponse.o fullErrorResponse.o simpleErrorResponse.o logger.o
+	$(CC) $(CFLAGS) -o HttpServer.exe HttpServer.o configuration.o contentGenerator.o communication.o connection.o httpConnection.o server.o fileParser.o fileParserScript.o fileParserDirectory.o fileParserRegular.o fileParserBinary.o fileParserText.o loggable.o request.o getRequest.o simpleResponse.o fullResponse.o fullErrorResponse.o simpleErrorResponse.o logger.o -lstdc++fs -fsanitize=address
 configuration.o: configuration.cpp
 	$(CC) $(CFLAGS) -c configuration.cpp -o configuration.o
-main.o: main.cpp
-	$(CC) $(CFLAGS) -c main.cpp -o main.o
+HttpServer.o: HttpServer.cpp
+	$(CC) $(CFLAGS) -c HttpServer.cpp -o HttpServer.o
 contentGenerator.o: ContentGenerator.cpp
 	$(CC) $(CFLAGS) -c ContentGenerator.cpp -o contentGenerator.o
 communication.o: communicationManagement/Communication.cpp

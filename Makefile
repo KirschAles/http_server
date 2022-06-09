@@ -1,12 +1,12 @@
 all:
 	cd src && make all
-	mv src/main.exe main.exe;
+	mv src/HttpServer.exe HttpServer.exe;
 clean:
-	rm main.exe;
+	rm *.exe;
 	cd src && make clean;
 run:
-	./main.exe
+	./HttpServer.exe
 compile:
 	cd src && make all
-	mv src/main.exe main.exe
+	mv src/HttpServer.exe HttpServer.exe
 	cd src && make clean
