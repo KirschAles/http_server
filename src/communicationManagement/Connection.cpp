@@ -58,7 +58,7 @@ std::string Connection::recieve() const {
 std::string Connection::recieve(size_t maximumSize) const {
     long bufferSize = configuration.getChunkSize();
     char *buffer = new char[bufferSize];
-    size_t bytesWanted = maximumSize?maximumSize:bufferSize-1;
+    long bytesWanted = maximumSize?maximumSize:bufferSize-1;
     int bytesRecieved = 0;
     std::string message{};
 
