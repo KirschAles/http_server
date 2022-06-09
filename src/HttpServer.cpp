@@ -43,6 +43,7 @@ int main(int argc, char *argv[]) {
         HttpConnection conn(connection, configuration);
         Communication comm(conn, configuration);
         keepRunning = comm.communicate(logger);
+        std::cout << "Closed" << std::endl;
     }
     return 0;
 }
