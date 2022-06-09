@@ -175,7 +175,15 @@ void Configuration::get(const std::string &configFile) {
     input.open(configFile);
     if (input.fail()) {
         input.close();
-        throw std::runtime_error("File failed to open.");
+        std::ofstream output;
+        output.open(configFile);
+        if (output.fail()) {
+            throw std::runtime_error("File couldn't be opened");
+        }
+        else {
+            output.close();
+            return;
+        }
     }
     std::map<std::string, std::string> headers;
     getHeaders(input, headers);
