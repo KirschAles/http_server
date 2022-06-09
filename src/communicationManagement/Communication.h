@@ -13,6 +13,12 @@
 #include "../exceptions/MultipleChoices.h"
 #include "../Logger.h"
 
+/**
+ * Communication
+ *
+ * This class manages the whole interaction between one server and one client
+ * closes Connection after one Request, Response Exchange
+ */
 class Communication {
 private:
     HttpConnection &connection;
@@ -22,6 +28,13 @@ private:
     Response *createResponse(Request *request);
     Response *createErrorResponse(HttpException &e);
 public:
+    /**
+     *
+     * @param connection HttpConnection over which the exchange will be made
+     * @param configuration
+     * httpVersion is set as HTTP09 so if no information about version of the client
+     * can be retrieved, the server will still send response in a format supported by the client.
+     */
     Communication(HttpConnection &connection, const Configuration &configuration)
             : connection(connection), configuration(configuration), httpVersion(http::HTTP09) {}
     Request *recieveRequest();

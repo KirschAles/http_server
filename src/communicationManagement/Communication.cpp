@@ -1,5 +1,9 @@
 #include "Communication.h"
-
+/**
+ *
+ * @return Request * to a newly created request
+ * @error BadRequest if the Request fails to be created
+ */
 Request *Communication::recieveRequest() {
     std::string requestName;
     Request *request = nullptr;
@@ -17,6 +21,12 @@ Request *Communication::recieveRequest() {
     }
     return request;
 }
+
+/**
+ *
+ * @param e HttpException & that was thrown, when the Requst creation failed
+ * @return ErrorResponse *
+ */
 Response *Communication::createErrorResponse(HttpException &e) {
     Response *response = nullptr;
     // exception is going to be freed in ErrorResponse destructor
@@ -28,6 +38,11 @@ Response *Communication::createErrorResponse(HttpException &e) {
     }
     return response;
 }
+/**
+ *
+ * @param request Request * a valid request
+ * @return Response * a Response that was generated in accordance with the request
+ */
 Response *Communication::createResponse(Request *request) {
     Response *response = nullptr;
     ContentGenerator generator(request->getFileName(), configuration);
@@ -41,6 +56,13 @@ Response *Communication::createResponse(Request *request) {
 
 }
 
+/**
+ *
+ * @param logger Logger & object that is used to write exchange info into logfile
+ * @return boolean true if the server is supposed to continue running, false if the server must turn off
+ * This method facilitates exchange between client and server if the client enters file to shutdown server.
+ * Server returns no message back to the client and quietly shutsdown.
+ */
 bool Communication::communicate(Logger &logger) {
     Response *response = nullptr;
     Request *request = nullptr;
