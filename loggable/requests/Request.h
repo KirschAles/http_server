@@ -36,11 +36,11 @@ public:
     // On ERROR throws std::runtime_error
     Request(HttpConnection &connection, std::string &version);
     Request(const Request &request)
-    : httpVersion(request.httpVersion), fileName(request.fileName), headers(request.headers) {}
+    : httpVersion(request.httpVersion), headers(request.headers), fileName(request.fileName) {}
     Request(Request &&request)
     : httpVersion(std::move(request.httpVersion)),
-      fileName(std::move(request.fileName)),
-      headers(std::move(request.headers)) {}
+      headers(std::move(request.headers)),
+      fileName(std::move(request.fileName)) {}
     Request &operator=(const Request &request);
     Request &operator=(Request &&request);
     const std::string &getFileName() {
