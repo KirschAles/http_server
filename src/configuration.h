@@ -17,7 +17,7 @@ private:
     // needs to be char* so nullptr can be send
     char *ipAddress = nullptr;
     fs::path rootDirectory = fs::canonical(fs::path("."));
-    size_t chunkSize = 100000;
+    size_t chunkSize = 10000;
     fs::path logFile = fs::path("./log.log");
     fs::path killFile = fs::path("./kill");
     std::vector<std::string> scriptExtensions = {".sh", ".py", ".exe", ".out"};
@@ -25,7 +25,7 @@ private:
     std::vector<std::string> imageExtensions = {".gif", ".jpeg", ".png", ".tiff", ".vnd.microsoft.icon", ".x-icon", ".vnd.djvu", ".svg+xml"};
     std::string logFormat = "log:\n \tdomain: %d \tIP address: %I\n\tmessage: %m\n\n";
     __suseconds_t timeoutMicroSeconds = 0;
-    __time_t timeoutSeconds = 3;
+    __time_t timeoutSeconds = 15;
 
     static bool isIn(const std::string &item, const std::vector<std::string> &items);
     void get(const std::string &configurationFile);
