@@ -4,7 +4,9 @@
 #include "configuration.h"
 #include <ctime>
 #include "constants/mixed.h"
-
+/**
+ * Class gets file to which to log from Configuration
+ */
 class Logger {
 private:
     std::ofstream file;

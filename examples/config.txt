@@ -1,0 +1,3 @@
+log-file: logFile1.log
+script-extensions:    .exe, .py
+root-directory: nonexistent
