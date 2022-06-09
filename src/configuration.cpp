@@ -190,6 +190,12 @@ void Configuration::get(const std::string &configFile) {
     setLoadedConfigurations(headers);
     input.close();
 }
+/**
+ *
+ * @param configFile
+ * @return bolean, true if file was succesfully loaded, false otherwise
+ * if false occurs, prints also reason why it occured
+ */
 bool Configuration::load(const std::string &configFile) {
     try {
         get(configFile);
