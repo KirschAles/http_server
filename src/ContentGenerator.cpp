@@ -33,23 +33,23 @@ namespace fs = std::experimental::filesystem;
     std::unique_ptr<FileParser> ContentGenerator::createFileParserOfRegular(const fs::path &file) {
         std::string extension = file.extension().string();
         if (configuration.isScript(extension)) {
-            return std::move(std::unique_ptr<FileParser> (new FileParserScript(file, configuration.getChunkSize())));
+            return std::make_unique<FileParserScript>(file, configuration.getChunkSize());
         }
         else if (configuration.isText(extension)) {
-            return std::move(std::unique_ptr<FileParser> (new FileParserText(file, configuration.getChunkSize())));
+            return std::make_unique<FileParserText>(file, configuration.getChunkSize());
         }
         else if (configuration.isImage(extension)) {
-            return std::move(std::unique_ptr<FileParser> (new FileParserImage(file, configuration.getChunkSize())));
+            return std::make_unique<FileParserImage>(file, configuration.getChunkSize());
         }
         else {
             // binary is the default mode for unknown types of files
-            return std::move(std::unique_ptr<FileParser> (new FileParserBinary(file, configuration.getChunkSize())));
+            return std::make_unique<FileParserBinary>(file, configuration.getChunkSize());
         }
     }
     std::unique_ptr<FileParser> ContentGenerator::createFileParser(const fs::path &file) {
         switch (fs::status(file).type()) {
             case fs::file_type::directory:
-                return std::move(std::unique_ptr<FileParser> (new FileParserDirectory(file, configuration.getChunkSize())));
+                return std::make_unique<FileParserDirectory>(file, configuration.getChunkSize());
             case fs::file_type::regular:
                 return std::move(createFileParserOfRegular(file));
             default:
