@@ -1,6 +1,7 @@
 #ifndef HTTP_SERVER_MULTIPLECHOICES_H
 #define HTTP_SERVER_MULTIPLECHOICES_H
 #include "HttpException.h"
+#include "../constants/codes.h"
 
 class MultipleChoices: public HttpException {
 public:

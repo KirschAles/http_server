@@ -1,6 +1,7 @@
 #ifndef HTTP_SERVER_INTERNALSERVERERROR_H
 #define HTTP_SERVER_INTERNALSERVERERROR_H
 #include "HttpException.h"
+#include "../constants/codes.h"
 
 class InternalServerError: public HttpException {
 public:
