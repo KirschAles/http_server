@@ -12,7 +12,7 @@ protected:
     Response(HttpConnection &connection): connection(connection){}
 public:
     virtual bool send() = 0;
-    virtual ~Response() {}
+    virtual ~Response() = default;
 };
 
 

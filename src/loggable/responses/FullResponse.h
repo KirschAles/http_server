@@ -19,9 +19,8 @@ protected:
     std::string buildStatusLine() const;
     std::string buildHeaders() const;
 
-        public:
-    FullResponse(HttpConnection &connection, ContentGenerator &contentGenerator, const Configuration &configuration)
-            : SimpleResponse(connection, contentGenerator), configuration(configuration) {}
+public:
+    FullResponse(HttpConnection &connection, ContentGenerator &contentGenerator, const Configuration &configuration);
     bool send() override;
     std::string getPartialMessage() override;
     std::string getFullMessage() override;

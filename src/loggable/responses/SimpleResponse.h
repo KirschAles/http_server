@@ -13,13 +13,10 @@ protected:
     ContentGenerator contentGenerator;
     virtual bool sendBody();
 public:
-    SimpleResponse(HttpConnection &connection, ContentGenerator &contentGenerator)
-            : Response(connection), contentGenerator(std::move(contentGenerator)) {}
+    SimpleResponse(HttpConnection &connection, ContentGenerator &contentGenerator);
 
     // used like this, so fullResponse can also send headers along with the body
-    bool send() override {
-        return sendBody();
-    }
+    bool send() override;
     std::string getFullMessage() override;
     std::string getPartialMessage() override;
 };

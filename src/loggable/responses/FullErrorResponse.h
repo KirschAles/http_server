@@ -16,12 +16,9 @@ protected:
     std::string buildStatusLine();
 
 public:
-    FullErrorResponse(HttpConnection &connection, const HttpException &exception, const std::string &version)
-            : SimpleErrorResponse(connection, exception), code(exception.getCode()), version(version) {}
+    FullErrorResponse(HttpConnection &connection, const HttpException &exception, const std::string &version);
 
-    bool send() override {
-        return sendStatusLine();
-    }
+    bool send() override;
     std::string getFullMessage() override;
     std::string getPartialMessage() override;
 };

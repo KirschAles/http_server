@@ -11,6 +11,9 @@ bool SimpleResponse::sendBody() {
 }
 
 
+SimpleResponse::SimpleResponse(HttpConnection &connection, ContentGenerator &contentGenerator)
+: Response(connection), contentGenerator(std::move(contentGenerator)) {}
+
 /**
  *
  * @return string partial message intended for Logger
@@ -29,4 +32,8 @@ std::string SimpleResponse::getPartialMessage() {
  */
 std::string SimpleResponse::getFullMessage() {
     return std::move(getPartialMessage());
+}
+
+bool SimpleResponse::send() {
+    return sendBody();
 }

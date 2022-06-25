@@ -12,18 +12,12 @@ class SimpleErrorResponse: public Response {
 protected:
     const std::string what;
 public:
-    SimpleErrorResponse(HttpConnection &connection, const HttpException &exception)
-    : Response(connection), what(exception.what()) {}
+    SimpleErrorResponse(HttpConnection &connection, const HttpException &exception);
     /**
     *
     * @return boolean true on success, false on failure
     */
-    bool send() override {
-        return connection.send(what);
-    }
-    ~SimpleErrorResponse() override {
-
-    }
+    bool send() override;
 
     virtual std::string getFullMessage();
     std::string getPartialMessage() override;
