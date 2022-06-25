@@ -38,7 +38,7 @@ int main(int argc, char *argv[]) {
     bool keepRunning = true;
     std::unique_ptr<Logger> logger;
     try {
-        logger = std::move(std::unique_ptr<Logger>(new Logger(configuration)));
+        logger = std::make_unique<Logger>(configuration);
     }
     catch (const std::runtime_error &e) {
         std::cout << e.what() << std::endl;
