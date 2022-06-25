@@ -44,14 +44,10 @@ private:
     void buildHeaders();
 public:
     ContentGenerator(const std::string fileName, const Configuration &configuration);
-    ContentGenerator(ContentGenerator &&contentGenerator)
-    : configuration(contentGenerator.configuration),
-      fileParser(std::move(contentGenerator.fileParser)),
-      headers(std::move(contentGenerator.headers)),
-      fileName(contentGenerator.fileName) {}
+    ContentGenerator(ContentGenerator &&contentGenerator);
     const std::map<std::string, std::string> &getHeaders() const;
-    bool isEmpty() { return fileParser->isEmpty();}
-    std::string getChunk() { return std::move(fileParser->getChunk());}
+    bool isEmpty();
+    std::string getChunk();
     ~ContentGenerator();
 };
 

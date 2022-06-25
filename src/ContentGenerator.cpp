@@ -135,6 +135,16 @@ namespace fs = std::experimental::filesystem;
         buildHeaders();
     }
 
+    ContentGenerator::ContentGenerator(ContentGenerator &&contentGenerator)
+    : configuration(contentGenerator.configuration),
+    fileParser(std::move(contentGenerator.fileParser)),
+    headers(std::move(contentGenerator.headers)),
+    fileName(contentGenerator.fileName) {}
+
+
+    std::string ContentGenerator::getChunk() { return std::move(fileParser->getChunk());}
+
+    bool ContentGenerator::isEmpty() { return fileParser->isEmpty();}
     /**
      * builds headers to be used as entity header
      * right now only content-length
