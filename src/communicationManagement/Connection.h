@@ -37,7 +37,6 @@ public:
     bool send(const std::string &message) const noexcept;
     std::string recieve() const;
     std::string recieve(size_t maximumSize) const;
-    void close() {::close(sockfd);}
     std::string getIpAddress() const;
     std::string getDomain() const;
     ~Connection();

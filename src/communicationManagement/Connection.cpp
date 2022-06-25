@@ -152,5 +152,5 @@ std::string Connection::getDomain() const {
     return mixed::unknown;
 }
 Connection::~Connection(){
-    close();
+    ::close(sockfd);
 }
