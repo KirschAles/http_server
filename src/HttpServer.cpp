@@ -4,7 +4,7 @@
 #include "communicationManagement/Communication.h"
 #include "Logger.h"
 #include "constants/mixed.h"
-
+#include <memory>
 
 
 
@@ -17,7 +17,7 @@
  */
 int main(int argc, char *argv[]) {
     Configuration configuration;
-    int loadedSuccesfully = false;
+    bool loadedSuccesfully = false;
     if (argc >= 2) {
         loadedSuccesfully = configuration.load(argv[1]);
     }
@@ -36,15 +36,12 @@ int main(int argc, char *argv[]) {
     }
     std::cout << "Listening..." << std::endl;
     bool keepRunning = true;
-    Logger *logger = nullptr;
+    std::unique_ptr<Logger> logger;
     try {
-        logger = new Logger(configuration);
+        logger = std::move(std::unique_ptr<Logger>(new Logger(configuration)));
     }
     catch (const std::runtime_error &e) {
         std::cout << e.what() << std::endl;
-        if (logger) {
-            delete logger;
-        }
         return -1;
     }
     while (keepRunning) {
@@ -55,7 +52,6 @@ int main(int argc, char *argv[]) {
         keepRunning = comm.communicate(*logger);
         std::cout << "Closed" << std::endl;
     }
-    delete logger;
     return 0;
 }
 
