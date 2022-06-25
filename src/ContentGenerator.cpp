@@ -30,28 +30,28 @@ namespace fs = std::experimental::filesystem;
      * Creates a FileParser to care for the file
      * Allocated memory will be freed by ContentGenerators destructor
      */
-    FileParser *ContentGenerator::createFileParserOfRegular(const fs::path &file) {
+    std::unique_ptr<FileParser> ContentGenerator::createFileParserOfRegular(const fs::path &file) {
         std::string extension = file.extension().string();
         if (configuration.isScript(extension)) {
-            return new FileParserScript(file, configuration.getChunkSize());
+            return std::move(std::unique_ptr<FileParser> (new FileParserScript(file, configuration.getChunkSize())));
         }
         else if (configuration.isText(extension)) {
-            return new FileParserText(file, configuration.getChunkSize());
+            return std::move(std::unique_ptr<FileParser> (new FileParserText(file, configuration.getChunkSize())));
         }
         else if (configuration.isImage(extension)) {
-            return new FileParserImage(file, configuration.getChunkSize());
+            return std::move(std::unique_ptr<FileParser> (new FileParserImage(file, configuration.getChunkSize())));
         }
         else {
             // binary is the default mode for unknown types of files
-            return new FileParserBinary(file, configuration.getChunkSize());
+            return std::move(std::unique_ptr<FileParser> (new FileParserBinary(file, configuration.getChunkSize())));
         }
     }
-    FileParser *ContentGenerator::createFileParser(const fs::path &file) {
+    std::unique_ptr<FileParser> ContentGenerator::createFileParser(const fs::path &file) {
         switch (fs::status(file).type()) {
             case fs::file_type::directory:
-                return new FileParserDirectory(file, configuration.getChunkSize());
+                return std::move(std::unique_ptr<FileParser> (new FileParserDirectory(file, configuration.getChunkSize())));
             case fs::file_type::regular:
-                return createFileParserOfRegular(file);
+                return std::move(createFileParserOfRegular(file));
             default:
                 throw BadRequest("Type of file not supported.");
         }
@@ -159,11 +159,6 @@ namespace fs = std::experimental::filesystem;
         return headers;
     }
 
-    ContentGenerator::~ContentGenerator() {
-        if (fileParser) {
-            delete fileParser;
-            fileParser = nullptr;
-        }
-    }
+    ContentGenerator::~ContentGenerator() {}
 
 

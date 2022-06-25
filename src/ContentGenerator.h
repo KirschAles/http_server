@@ -5,6 +5,7 @@
 #include <cstdio>
 #include <map>
 #include <experimental/filesystem>
+#include <memory>
 #include "configuration.h"
 #include "fileParsers/FileParser.h"
 #include "fileParsers/FileParserRegular.h"
@@ -29,15 +30,15 @@ namespace fs = std::experimental::filesystem;
 class ContentGenerator {
 private:
     const Configuration &configuration;
-    FileParser *fileParser = nullptr;
+    std::unique_ptr<FileParser> fileParser;
     std::map<std::string, std::string> headers;
     fs::path fileName;
 
     // directory must be directory, should be checked by the configuration
     static bool isSubdirectory(const fs::path &file, const fs::path &directory);
 
-    FileParser *createFileParserOfRegular(const fs::path &file);
-    FileParser *createFileParser(const fs::path &file);
+    std::unique_ptr<FileParser> createFileParserOfRegular(const fs::path &file);
+    std::unique_ptr<FileParser> createFileParser(const fs::path &file);
     bool isEqual(const fs::path &file1, const fs::path &file2) const;
     fs::path removeDots(const fs::path &file) const;
     void buildHeaders();
@@ -45,12 +46,9 @@ public:
     ContentGenerator(const std::string fileName, const Configuration &configuration);
     ContentGenerator(ContentGenerator &&contentGenerator)
     : configuration(contentGenerator.configuration),
-      fileParser(contentGenerator.fileParser),
+      fileParser(std::move(contentGenerator.fileParser)),
       headers(std::move(contentGenerator.headers)),
-      fileName(contentGenerator.fileName) {
-        // set to NULL so the parser isn't destroyed when original deconstructs
-        contentGenerator.fileParser = nullptr;
-    }
+      fileName(contentGenerator.fileName) {}
     const std::map<std::string, std::string> &getHeaders() const;
     bool isEmpty() { return fileParser->isEmpty();}
     std::string getChunk() { return std::move(fileParser->getChunk());}
