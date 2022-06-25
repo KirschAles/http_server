@@ -1,12 +1,12 @@
 all:
 	cd src && make all
-	mv src/kirscale kirscale;
+	mv src/httpServ httpServ;
 clean:
-	-rm kirscale
+	-rm httpServ
 	-make rmdoc
 	-cd src && make clean
 run:
-	./kirscale
+	./httpServ
 compile:
 	make all
 	cd src && make clean
