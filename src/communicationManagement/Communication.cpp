@@ -4,9 +4,9 @@
  * @return Request * to a newly created request
  * @error BadRequest if the Request fails to be created
  */
-Request *Communication::recieveRequest() {
+std::unique_ptr<Request> Communication::recieveRequest() {
     std::string requestName;
-    Request *request = nullptr;
+    std::unique_ptr<Request> request;
     try {
         requestName = connection.getBytes(4);
     }
@@ -14,12 +14,12 @@ Request *Communication::recieveRequest() {
         throw BadRequest("Request is too small.");
     }
     if (requestName == "GET ") {
-        request = new GETRequest(connection, httpVersion);
+        request = std::make_unique<GETRequest>(connection, httpVersion);
     }
     else {
         throw BadRequest("Unknown Request type.");
     }
-    return request;
+    return std::move(request);
 }
 
 /**
@@ -27,14 +27,14 @@ Request *Communication::recieveRequest() {
  * @param e HttpException & that was thrown, when the Requst creation failed
  * @return ErrorResponse *
  */
-Response *Communication::createErrorResponse(const HttpException &e) {
-    Response *response = nullptr;
+std::unique_ptr<Response> Communication::createErrorResponse(const HttpException &e) {
+    std::unique_ptr<Response> response;
     // exception is going to be freed in ErrorResponse destructor
     if (httpVersion == http::HTTP09) {
-        response = new SimpleErrorResponse(connection, e);
+        response = std::make_unique<SimpleErrorResponse>(connection, e);
     }
     else {
-        response = new FullErrorResponse(connection, e, http::HTTP10);
+        response = std::make_unique<FullErrorResponse>(connection, e, http::HTTP10);
     }
     return response;
 }
@@ -43,16 +43,16 @@ Response *Communication::createErrorResponse(const HttpException &e) {
  * @param request Request * a valid request
  * @return Response * a Response that was generated in accordance with the request
  */
-Response *Communication::createResponse(Request *request) {
-    Response *response = nullptr;
-    ContentGenerator generator(request->getFileName(), configuration);
-    if (request->getVersion() == http::HTTP09) {
-        response = new SimpleResponse(connection, generator);
+std::unique_ptr<Response> Communication::createResponse(Request &request) {
+    std::unique_ptr<Response> response;
+    ContentGenerator generator(request.getFileName(), configuration);
+    if (request.getVersion() == http::HTTP09) {
+        response = std::make_unique<SimpleResponse>(connection, generator);
     }
     else {
-        response = new FullResponse(connection, generator, configuration);
+        response = std::make_unique<FullResponse>(connection, generator, configuration);
     }
-    return response;
+    return std::move(response);
 
 }
 
@@ -64,14 +64,14 @@ Response *Communication::createResponse(Request *request) {
  * Server returns no message back to the client and quietly shutsdown.
  */
 bool Communication::communicate(Logger &logger) {
-    Response *response = nullptr;
-    Request *request = nullptr;
+    std::unique_ptr<Response> response;
+    std::unique_ptr<Request> request ;
 
     try {
         connection.startRecording();
         request = recieveRequest();
         connection.stopRecording();
-        response = createResponse(request);
+        response = createResponse(*request);
 
         logger.log(request->getPartialMessage(), connection.getIpAddress(), connection.getDomain());
         logger.log(response->getPartialMessage(), connection.getIpAddress(), connection.getDomain());
@@ -83,22 +83,9 @@ bool Communication::communicate(Logger &logger) {
         logger.log(response->getFullMessage(), connection.getIpAddress(), connection.getDomain());
     }
     catch (const std::runtime_error &e) {
-        if (response) {
-            delete response;
-        }
-        if (request) {
-            delete request;
-        }
         std::cout << e.what() << std::endl;
         return false;
     }
-
     response->send();
-    if (response) {
-        delete response;
-    }
-    if (request) {
-        delete request;
-    }
     return true;
 }

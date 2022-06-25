@@ -25,8 +25,8 @@ private:
     const Configuration &configuration;
     std::string httpVersion;
 
-    Response *createResponse(Request *request);
-    Response *createErrorResponse(const HttpException &e);
+    std::unique_ptr<Response> createResponse(Request &request);
+    std::unique_ptr<Response> createErrorResponse(const HttpException &e);
 public:
     /**
      *
@@ -37,7 +37,7 @@ public:
      */
     Communication(HttpConnection &connection, const Configuration &configuration)
             : connection(connection), configuration(configuration), httpVersion(http::HTTP09) {}
-    Request *recieveRequest();
+    std::unique_ptr<Request> recieveRequest();
     bool communicate(Logger &logger);
 
 };
