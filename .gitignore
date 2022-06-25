@@ -1,6 +1,13 @@
 # ignore object and execution files
 *.o
 HttpServer.exe
+httpServ
 
 # ignore tests
 *test*
+
+# ignore log
+*.log
+
+#ignore config
+config*
