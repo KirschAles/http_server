@@ -68,6 +68,7 @@ bool HttpConnection::isCSLR() {
     }
     return false;
 }
+
 /**
  *
  * @return char return a byte thats next in line
@@ -87,6 +88,7 @@ char HttpConnection::getByte() {
     }
     return byte;
 }
+
 /**
  *
  * @param length number of bytes to be collected
@@ -100,6 +102,7 @@ std::string HttpConnection::getBytes(int length) {
     }
     return std::move(bytes);
 }
+
 /**
  *
  * @return string, the whole line
@@ -113,3 +116,18 @@ std::string HttpConnection::getLine() {
 
     return std::move(line);
 }
+
+HttpConnection::HttpConnection(const Connection &connection, const Configuration &configuration)
+: connection(connection), chunkLength(configuration.getChunkSize()) {}
+
+bool HttpConnection::send(const std::string &message) {
+    return connection.send(message);
+}
+
+
+void HttpConnection::startRecording() {isRecording = true;}
+void HttpConnection::stopRecording() {isRecording = false;}
+const std::string &HttpConnection::getRecords() {return recording;}
+void HttpConnection::clearRecords() {recording = std::string();}
+std::string HttpConnection::getIpAddress() const {return std::move(connection.getIpAddress());}
+std::string HttpConnection::getDomain() const {return std::move(connection.getDomain());}

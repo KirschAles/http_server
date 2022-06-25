@@ -1,4 +1,9 @@
 #include "Communication.h"
+
+Communication::Communication(HttpConnection &connection, const Configuration &configuration)
+: connection(connection), configuration(configuration), httpVersion(http::HTTP09) {}
+
+
 /**
  *
  * @return Request * to a newly created request

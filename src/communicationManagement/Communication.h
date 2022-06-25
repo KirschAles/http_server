@@ -35,8 +35,7 @@ public:
      * httpVersion is set as HTTP09 so if no information about version of the client
      * can be retrieved, the server will still send response in a format supported by the client.
      */
-    Communication(HttpConnection &connection, const Configuration &configuration)
-            : connection(connection), configuration(configuration), httpVersion(http::HTTP09) {}
+    Communication(HttpConnection &connection, const Configuration &configuration);
     std::unique_ptr<Request> recieveRequest();
     bool communicate(Logger &logger);
 

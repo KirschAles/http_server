@@ -17,8 +17,7 @@ private:
     std::string recording;
     bool isRecording = false;
 public:
-    HttpConnection(const Connection &connection, const Configuration &configuration)
-            : connection(connection), chunkLength(configuration.getChunkSize()) {}
+    HttpConnection(const Connection &connection, const Configuration &configuration);
     void rollBackByte(char byte);
     bool newChunk();
     bool assertSize(size_t size);
@@ -28,15 +27,13 @@ public:
     char getByte();
     std::string getBytes(int length) ;
     std::string getLine() ;
-    bool send(const std::string &message) {
-        return connection.send(message);
-    }
-    void startRecording() {isRecording = true;}
-    void stopRecording() {isRecording = false;}
-    const std::string &getRecords() {return recording;}
-    void clearRecords() {recording = std::string();}
-    std::string getIpAddress() const {return std::move(connection.getIpAddress());}
-    std::string getDomain() const {return std::move(connection.getDomain());}
+    bool send(const std::string &message);
+    void startRecording();
+    void stopRecording();
+    const std::string &getRecords();
+    void clearRecords();
+    std::string getIpAddress() const;
+    std::string getDomain() const;
 
 };
 
