@@ -2,7 +2,7 @@
 
 
 std::string SimpleErrorResponse::getFullMessage() {
-    return exception.what();
+    return what;
 }
 std::string SimpleErrorResponse::getPartialMessage() {
     return std::move(getFullMessage());

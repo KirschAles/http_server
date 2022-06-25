@@ -10,21 +10,19 @@
  */
 class SimpleErrorResponse: public Response {
 protected:
-    const HttpException &exception;
+    const std::string what;
 public:
     SimpleErrorResponse(HttpConnection &connection, const HttpException &exception)
-    : Response(connection), exception(exception) {}
+    : Response(connection), what(exception.what()) {}
     /**
     *
     * @return boolean true on success, false on failure
     */
     bool send() override {
-        return connection.send(exception.what());
+        return connection.send(what);
     }
     ~SimpleErrorResponse() override {
-        if (&exception) {
-            delete &exception;
-        }
+
     }
 
     virtual std::string getFullMessage();

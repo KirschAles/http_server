@@ -20,8 +20,8 @@ std::string Request::getLineSafely(HttpConnection &connection) {
     try {
         return std::move(connection.getLine());
     }
-    catch (std::runtime_error e) {
-        throw new BadRequest("Bad Format");
+    catch (const std::runtime_error &e) {
+        throw BadRequest("Bad Format");
     }
 }
 std::string Request::setFileName(const std::string line) {
@@ -62,25 +62,25 @@ std::string Request::getHeaderName(std::string &line) {
     for (pos = 0; ':' != (tmp = line[pos]); pos++) {
         // attribute name must be made of printable characters
         if (!std::isprint(tmp)) {
-            throw new BadRequest("Header name in request is made of non-printable characters.");
+            throw BadRequest("Header name in request is made of non-printable characters.");
         }
         // no whitespace should be between the start of header name and ':'
         else if (std::isspace(tmp)) {
-            throw new BadRequest("Header name in request contains whitespace characters");
+            throw BadRequest("Header name in request contains whitespace characters");
         }
         // the header name must not depend on the case of character
         name += tolower(tmp);
         if (pos == line.length() - 1) {
-            throw new BadRequest("No ':' character in header");
+            throw BadRequest("No ':' character in header");
         }
     }
     // there is one space remaining in line at best
     if (pos >= line.length() - 2) {
-        throw new BadRequest("No value in header");
+        throw BadRequest("No value in header");
     }
     // after ':' must be spacebar
     if (line[++pos] != ' ') {
-        throw new BadRequest("Bad format of header, missing space after ':'");
+        throw BadRequest("Bad format of header, missing space after ':'");
     }
     line = line.substr(++pos);
     return std::move(name);

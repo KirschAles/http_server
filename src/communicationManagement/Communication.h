@@ -26,7 +26,7 @@ private:
     std::string httpVersion;
 
     Response *createResponse(Request *request);
-    Response *createErrorResponse(HttpException &e);
+    Response *createErrorResponse(const HttpException &e);
 public:
     /**
      *

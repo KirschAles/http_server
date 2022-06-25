@@ -11,13 +11,13 @@ Request *Communication::recieveRequest() {
         requestName = connection.getBytes(4);
     }
     catch (std::runtime_error e) {
-        throw new BadRequest("Request is too small.");
+        throw BadRequest("Request is too small.");
     }
     if (requestName == "GET ") {
         request = new GETRequest(connection, httpVersion);
     }
     else {
-        throw new BadRequest("Unknown Request type.");
+        throw BadRequest("Unknown Request type.");
     }
     return request;
 }
@@ -27,7 +27,7 @@ Request *Communication::recieveRequest() {
  * @param e HttpException & that was thrown, when the Requst creation failed
  * @return ErrorResponse *
  */
-Response *Communication::createErrorResponse(HttpException &e) {
+Response *Communication::createErrorResponse(const HttpException &e) {
     Response *response = nullptr;
     // exception is going to be freed in ErrorResponse destructor
     if (httpVersion == http::HTTP09) {
@@ -76,9 +76,9 @@ bool Communication::communicate(Logger &logger) {
         logger.log(request->getPartialMessage(), connection.getIpAddress(), connection.getDomain());
         logger.log(response->getPartialMessage(), connection.getIpAddress(), connection.getDomain());
     }
-    catch (HttpException *e) {
+    catch (const HttpException &e) {
         connection.stopRecording();
-        response = createErrorResponse(*e);
+        response = createErrorResponse(e);
         logger.log(connection.getRecords(), connection.getIpAddress(), connection.getDomain());
         logger.log(response->getFullMessage(), connection.getIpAddress(), connection.getDomain());
     }

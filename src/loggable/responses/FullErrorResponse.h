@@ -10,13 +10,14 @@
  */
 class FullErrorResponse: public SimpleErrorResponse {
 protected:
+    const std::string code;
     const std::string &version;
     virtual bool sendStatusLine();
     std::string buildStatusLine();
 
 public:
     FullErrorResponse(HttpConnection &connection, const HttpException &exception, const std::string &version)
-            : SimpleErrorResponse(connection, exception), version(version) {}
+            : SimpleErrorResponse(connection, exception), code(exception.getCode()), version(version) {}
 
     bool send() override {
         return sendStatusLine();

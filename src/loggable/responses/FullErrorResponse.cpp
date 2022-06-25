@@ -5,7 +5,7 @@ bool FullErrorResponse::sendStatusLine() {
     return connection.send(std::move(statusLine));
 }
 std::string FullErrorResponse::buildStatusLine() {
-    return std::move(version + " " + exception.getCode() + " " + exception.what());
+    return std::move(version + " " + code + " " + what);
 }
 /**
  *

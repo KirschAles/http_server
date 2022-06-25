@@ -36,13 +36,15 @@ int main(int argc, char *argv[]) {
     }
     std::cout << "Listening..." << std::endl;
     bool keepRunning = true;
-    Logger *logger;
+    Logger *logger = nullptr;
     try {
         logger = new Logger(configuration);
     }
     catch (const std::runtime_error &e) {
         std::cout << e.what() << std::endl;
-        delete logger;
+        if (logger) {
+            delete logger;
+        }
         return -1;
     }
     while (keepRunning) {

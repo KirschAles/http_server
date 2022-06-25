@@ -12,7 +12,7 @@ namespace fs = std::experimental::filesystem;
     bool ContentGenerator::isSubdirectory(const fs::path &file, const fs::path &directory) {
         if (fs::status(directory).type() != fs::file_type::directory) {
             // this should be checked by config but better to be safe
-            throw new InternalServerError("Root is not Directory");
+            throw InternalServerError("Root is not Directory");
         }
         auto fileIter = file.begin();
         auto dirIter = directory.begin();
@@ -53,7 +53,7 @@ namespace fs = std::experimental::filesystem;
             case fs::file_type::regular:
                 return createFileParserOfRegular(file);
             default:
-                throw new BadRequest("Type of file not supported.");
+                throw BadRequest("Type of file not supported.");
         }
     }
 
@@ -68,7 +68,7 @@ namespace fs = std::experimental::filesystem;
         fs::path newPath;
         for (auto iterator =  file.begin(); iterator != file.end(); ++iterator) {
             if (*iterator == "~") {
-                throw new BadRequest("Bad File Format");
+                throw BadRequest("Bad File Format");
             }
             if (*iterator == "..") {
                 newPath.remove_filename();
@@ -124,11 +124,11 @@ namespace fs = std::experimental::filesystem;
             throw std::runtime_error("Turning off.");
         }
         if (!fs::exists(file)) {
-            throw new BadRequest("Requested file doesn't exist.");
+            throw BadRequest("Requested file doesn't exist.");
         }
         file = fs::canonical(file);
         if (!isSubdirectory(file, configuration.getRootDirectory())) {
-            throw new BadRequest("Requested file is not a subdirectory of the root.");
+            throw BadRequest("Requested file is not a subdirectory of the root.");
         }
         // this line will throw error if the file cannot be opened or doesn't exist
         fileParser = createFileParser(file);
@@ -145,7 +145,7 @@ namespace fs = std::experimental::filesystem;
             contentLength = fileParser->getSize();
             headers["Content-Length"] = std::to_string(contentLength);
         }
-        catch (std::runtime_error e) {
+        catch (const std::runtime_error &e) {
             // contentLength couldn't be found, no content-length header was created
         }
         if (fileName.extension().string() == ".js") {
