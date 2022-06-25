@@ -19,7 +19,7 @@ public:
                       std::ios_base::openmode mode = std::ios_base::in);
     std::string getChunk() override;
     bool isEmpty() const override;
-    size_t getSize() const override {return size;}
+    size_t getSize() const override;
     ~FileParserRegular() override;
 };
 

@@ -45,3 +45,4 @@ FileParserRegular::~FileParserRegular() {
         file.close();
     }
 }
+size_t FileParserRegular::getSize() const {return size;}

@@ -8,8 +8,7 @@
  */
 class FileParserBinary: public FileParserRegular {
 public:
-    FileParserBinary(const fs::path &filePath, size_t chunkSize)
-            : FileParserRegular(filePath, chunkSize, std::ios_base::binary | std::ios_base::in) {}
+    FileParserBinary(const fs::path &filePath, size_t chunkSize);
 };
 
 

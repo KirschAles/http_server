@@ -9,8 +9,7 @@
 class FileParserDirectory: public FileParserScript {
 private:
 public:
-    FileParserDirectory(const fs::path &filePath, size_t chunkSize)
-            : FileParserScript(std::string("ls -w1 ") + filePath.string(), chunkSize) {}
+    FileParserDirectory(const fs::path &filePath, size_t chunkSize);
 };
 
 

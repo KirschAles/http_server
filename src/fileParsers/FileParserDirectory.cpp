@@ -1,5 +1,4 @@
-//
-// Created by alesp on 01.06.2022.
-//
-
 #include "FileParserDirectory.h"
+
+FileParserDirectory::FileParserDirectory(const fs::path &filePath, size_t chunkSize)
+: FileParserScript(std::string("ls -w1 ") + filePath.string(), chunkSize) {}
