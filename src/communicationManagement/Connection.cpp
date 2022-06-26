@@ -7,6 +7,11 @@ Connection::Connection(const Connection &connection)
         :sockfd(connection.sockfd), configuration(connection.configuration) {
     memcpy(&connectedAddr, &connection.connectedAddr, sizeof connectedAddr);
 }
+Connection::Connection(Connection &&connection)
+        :sockfd(connection.sockfd), configuration(connection.configuration) {
+    memcpy(&connectedAddr, &connection.connectedAddr, sizeof connectedAddr);
+    connection.sockfd = -1;
+}
 Connection &Connection::operator=(const Connection &connection) {
     sockfd = connection.sockfd;
     memcpy(&connectedAddr, &connection.connectedAddr, sizeof connectedAddr);
@@ -152,5 +157,7 @@ std::string Connection::getDomain() const {
     return mixed::unknown;
 }
 Connection::~Connection(){
-    ::close(sockfd);
+    if (sockfd != -1) {
+        ::close(sockfd);
+    }
 }

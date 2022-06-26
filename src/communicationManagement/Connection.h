@@ -32,6 +32,7 @@ private:
 public:
     Connection(int sockfd, sockaddr_storage &addr, size_t addrSize, const Configuration &configuration);
     Connection(const Connection &connection);
+    Connection(Connection &&connection);
     Connection &operator=(const Connection &connection);
 
     bool send(const std::string &message) const noexcept;
