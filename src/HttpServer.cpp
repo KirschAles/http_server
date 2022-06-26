@@ -5,9 +5,19 @@
 #include "Logger.h"
 #include "constants/mixed.h"
 #include <memory>
+#include <thread>
+#include <mutex>
 
+std::mutex runnerLock;
 
+void manageCommunication(Connection connection, const Configuration &configuration, Logger &logger, bool &shouldContinue) {
+    HttpConnection conn(connection, configuration);
+    Communication comm(conn, configuration);
+    bool keepRunning = comm.communicate(logger);
 
+    std::lock_guard<std::mutex> lock(runnerLock);
+    if (shouldContinue) shouldContinue = keepRunning;
+}
 
 /**
  *
@@ -47,10 +57,8 @@ int main(int argc, char *argv[]) {
     while (keepRunning) {
         Connection connection = server.accept();
         std::cout << "Accepted" << std::endl;
-        HttpConnection conn(connection, configuration);
-        Communication comm(conn, configuration);
-        keepRunning = comm.communicate(*logger);
-        std::cout << "Closed" << std::endl;
+        std::thread manager(manageCommunication, std::move(connection), std::ref(configuration), std::ref(*logger), std::ref(keepRunning));
+        manager.detach();
     }
     return 0;
 }
