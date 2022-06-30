@@ -11,3 +11,6 @@ httpServ
 
 #ignore config
 config*
+
+#ignore doc
+doc*
