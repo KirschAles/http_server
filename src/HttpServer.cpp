@@ -6,9 +6,7 @@
 #include "constants/mixed.h"
 #include <memory>
 #include <thread>
-#include <mutex>
 
-std::mutex runnerLock;
 
 void manageCommunication(Connection connection, const Configuration &configuration, Logger &logger, bool &shouldContinue) {
     HttpConnection conn(connection, configuration);
