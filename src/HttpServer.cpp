@@ -15,8 +15,7 @@ void manageCommunication(Connection connection, const Configuration &configurati
     Communication comm(conn, configuration);
     bool keepRunning = comm.communicate(logger);
 
-    std::lock_guard<std::mutex> lock(runnerLock);
-    if (shouldContinue) shouldContinue = keepRunning;
+    if (!keepRunning) shouldContinue = keepRunning;
 }
 
 /**
