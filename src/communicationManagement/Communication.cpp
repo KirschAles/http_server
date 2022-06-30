@@ -60,7 +60,7 @@ std::unique_ptr<Response> Communication::createResponse(Request &request) {
     return std::move(response);
 
 }
-
+std::mutex logLock;
 /**
  *
  * @param logger Logger & object that is used to write exchange info into logfile
@@ -78,12 +78,15 @@ bool Communication::communicate(Logger &logger) {
         connection.stopRecording();
         response = createResponse(*request);
 
+        std::lock_guard<std::mutex> loggingLock(logLock);
         logger.log(request->getPartialMessage(), connection.getIpAddress(), connection.getDomain());
         logger.log(response->getPartialMessage(), connection.getIpAddress(), connection.getDomain());
     }
     catch (const HttpException &e) {
         connection.stopRecording();
         response = createErrorResponse(e);
+
+        std::lock_guard<std::mutex> loggingLock(logLock);
         logger.log(connection.getRecords(), connection.getIpAddress(), connection.getDomain());
         logger.log(response->getFullMessage(), connection.getIpAddress(), connection.getDomain());
     }

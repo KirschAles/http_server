@@ -12,6 +12,7 @@
 #include "../exceptions/InternalServerError.h"
 #include "../exceptions/MultipleChoices.h"
 #include "../Logger.h"
+#include <mutex>
 
 /**
  * Communication
