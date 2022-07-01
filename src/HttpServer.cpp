@@ -6,7 +6,8 @@
 #include "constants/mixed.h"
 #include <memory>
 #include <thread>
-
+#include <atomic>
+#include <condition_variable>
 
 void manageCommunication(Connection connection, const Configuration &configuration, Logger &logger, bool &shouldContinue) {
     HttpConnection conn(connection, configuration);
@@ -51,12 +52,25 @@ int main(int argc, char *argv[]) {
         std::cout << e.what() << std::endl;
         return -1;
     }
+
+    std::atomic<int> threadCount(0);
+    std::mutex counterLock;
+    std::condition_variable conditionVariable;
     while (keepRunning) {
         Connection connection = server.accept();
         std::cout << "Accepted" << std::endl;
-        std::thread manager(manageCommunication, std::move(connection), std::ref(configuration), std::ref(*logger), std::ref(keepRunning));
+        ++threadCount;
+        std::thread manager([&connection, &configuration, &logger, &keepRunning, &threadCount, &counterLock, &conditionVariable](){
+            manageCommunication( std::move(connection), configuration, *logger, keepRunning);
+            std::lock_guard<std::mutex> lockCounter(counterLock);
+            --threadCount;
+            conditionVariable.notify_all();
+        });
         manager.detach();
     }
+
+    std::unique_lock<std::mutex> lock(counterLock);
+    conditionVariable.wait(lock, [&threadCount](){ return threadCount == 0; });
     return 0;
 }
 
