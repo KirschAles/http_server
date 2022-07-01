@@ -66,6 +66,7 @@ int main(int argc, char *argv[]) {
         manager.detach();
     }
 
+    // wait until all threads are closed before ending the programm
     std::unique_lock<std::mutex> lock(counterLock);
     conditionVariable.wait(lock, [&threadCount](){ return threadCount == 0; });
     return 0;
