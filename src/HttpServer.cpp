@@ -10,15 +10,10 @@
 #include <condition_variable>
 
 void manageCommunication(Connection connection, const Configuration &configuration, Logger &logger, bool &shouldContinue) {
-    std::cout << "managing communication" << std::endl;
     HttpConnection conn(connection, configuration);
-    std::cout << "connection created fully" << std::endl;
     Communication comm(conn, configuration);
-    std::cout << "communiATION created" << std::endl;
     bool keepRunning = comm.communicate(logger);
-    std::cout << "communicated properly" << std::endl;
     if (!keepRunning) shouldContinue = keepRunning;
-    std::cout << "communication done" << std::endl;
 }
 
 /**
