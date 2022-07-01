@@ -56,12 +56,14 @@ int main(int argc, char *argv[]) {
     std::mutex counterLock;
     std::condition_variable conditionVariable;
     while (keepRunning) {
-        std::thread manager([&configuration, &logger, &keepRunning, &threadCount, &counterLock, &conditionVariable](Connection connection){
-            ++threadCount;
-            manageCommunication( std::move(connection), configuration, *logger, keepRunning);
-            --threadCount;
-            std::lock_guard<std::mutex> lockCounter(counterLock);
-            conditionVariable.notify_all();
+        std::thread manager(
+            [&configuration, &logger, &keepRunning, &threadCount, &counterLock, &conditionVariable]
+            (Connection connection){
+                ++threadCount;
+                manageCommunication( std::move(connection), configuration, *logger, keepRunning);
+                --threadCount;
+                std::lock_guard<std::mutex> lockCounter(counterLock);
+                conditionVariable.notify_all();
         }, server.accept());
         manager.detach();
     }
