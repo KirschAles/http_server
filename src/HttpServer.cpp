@@ -64,8 +64,8 @@ int main(int argc, char *argv[]) {
         std::thread manager([&configuration, &logger, &keepRunning, &threadCount, &counterLock, &conditionVariable](Connection connection){
             ++threadCount;
             manageCommunication( std::move(connection), configuration, *logger, keepRunning);
-            std::lock_guard<std::mutex> lockCounter(counterLock);
             --threadCount;
+            std::lock_guard<std::mutex> lockCounter(counterLock);
             conditionVariable.notify_all();
         }, server.accept());
         manager.detach();
