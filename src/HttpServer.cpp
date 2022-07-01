@@ -10,11 +10,15 @@
 #include <condition_variable>
 
 void manageCommunication(Connection connection, const Configuration &configuration, Logger &logger, bool &shouldContinue) {
+    std::cout << "managing communication" << std::endl;
     HttpConnection conn(connection, configuration);
+    std::cout << "connection created fully" << std::endl;
     Communication comm(conn, configuration);
+    std::cout << "communiATION created" << std::endl;
     bool keepRunning = comm.communicate(logger);
-
+    std::cout << "communicated properly" << std::endl;
     if (!keepRunning) shouldContinue = keepRunning;
+    std::cout << "communication done" << std::endl;
 }
 
 /**
@@ -57,15 +61,13 @@ int main(int argc, char *argv[]) {
     std::mutex counterLock;
     std::condition_variable conditionVariable;
     while (keepRunning) {
-        Connection connection = server.accept();
-        std::cout << "Accepted" << std::endl;
-        ++threadCount;
-        std::thread manager([&connection, &configuration, &logger, &keepRunning, &threadCount, &counterLock, &conditionVariable](){
+        std::thread manager([&configuration, &logger, &keepRunning, &threadCount, &counterLock, &conditionVariable](Connection connection){
+            ++threadCount;
             manageCommunication( std::move(connection), configuration, *logger, keepRunning);
             std::lock_guard<std::mutex> lockCounter(counterLock);
             --threadCount;
             conditionVariable.notify_all();
-        });
+        }, server.accept());
         manager.detach();
     }
 
